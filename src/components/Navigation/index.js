@@ -14,15 +14,31 @@ export default function Navigation() {
   const loginLogoutControls = token ? <LoggedIn /> : <LoggedOut />;
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      className="justify-content-between"
+      style={{
+        maxWidth: "72rem",
+        margin: "0 auto",
+        height: "80px",
+      }}
+    >
       <Navbar.Brand as={NavLink} to="/">
-        YOUR PROJECT NAME
+        <img
+          alt="FluffyWorld"
+          src="https://image.flaticon.com/icons/png/512/21/21577.png"
+          width="30"
+          height="30"
+          className="d-inline-block align-top"
+        />{" "}
+        FLUFFY WORLD
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav style={{ width: "100%" }} fill>
-          <NavbarItem path="/" linkText="Home" />
-          <NavbarItem path="/other" linkText="Other" />
+      <Navbar.Collapse id="basic-navbar-nav" style={{ flexGrow: 0 }}>
+        <Nav>
+          {!token ? <NavbarItem path="/signup" linkText="Sign up" /> : null}
+
           {loginLogoutControls}
         </Nav>
       </Navbar.Collapse>
