@@ -1,0 +1,36 @@
+.header {
+  height: 70vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)),
+    url("../../images/dog.png");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0rem 0rem;
+}
+
+.text-pets {
+  font-size: 40px;
+  color: #ffff;
+  font-family: sans-serif;
+  margin-bottom: 1.5rem;
+}
+
+.search-box {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 7px;
+  padding: 2rem;
+}
+
+.label-text {
+  margin-bottom: 1rem;
+  font-size: 20px;
+}
+
+.button-search {
+  width: 100%;
+  position: absolute;
+  bottom: 1rem;
+}
