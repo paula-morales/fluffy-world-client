@@ -1,42 +1,67 @@
-# Frontend template
+# 🐕🐈Fluffy World Client🐩🦮
 
-This is a simple react/redux/jwt template to start a project quickly
+Hi 👋 I am Paula and I love coding and dogs!!
+
+Fluffy World is an application that allows pet owners to search for dog walkers, pet grooming, pet trainers, pet taxi and pet friends near their location.
+You can find the perfect candidate and be sure that your fluffy friend is in right hands. You can contact them by email to ask for more details.
 
 ## Table of contents:
 
-- **[Setup](#setup-how-to-use-this-template)**
-- **[Create React App docs](#cra-docs)**
+- **[App demo](#app-demo)**
+- **[Goals for this project](#goals)**
+- **[User stories](#user-stories)**
+- **[Server](#server)**
+- **[Technologies used](#technologies-used)**
+- **[Git workflow](#git-workflow)**
 
-## SETUP How to use this template
+## App demo
 
-1. Create a new project based on this template using the `Use this template` button
+![APP-DEMO](/src/images/01.png)
 
-![HOW_TO_USE](https://user-images.githubusercontent.com/20372832/77003323-70966180-695d-11ea-8abe-b362d57135f3.gif)
+## Goals 👩🏻‍🏫
 
-2. Clone the app
+The goal of this project is to build a full-stack app using new technologies .
 
-```
-git clone git@github.com:YOUR_GITHUB_NAME/YOUR_PROJECT_NAME.git
-```
+- Practice full-stack development
+- Apply what I learned in the bootcamp
+- Practice learning new technology independently
+- Practice disciplined git usage
 
-3. cd into your project
+## User stories
 
-```
-cd YOUR_PROJECT_NAME
-```
+**🐕🐈 As a pet owner, I want to be able to:**
 
-4. install dependencies
+- Type one address and find pet services around it
+- See a map with candidates near me (4km)
+- When I click the marker, I want to see a Card with the name of the candidate selected
+- Check the details of each candidate
+- Contact one candidate with a possible date and hour for the service
+- Leave a review to help other owners to find the right candidate
+- Register my pet to be available when someone looks for pet friends
 
-```
-npm install
-```
+**👨🏻👩🏻As a person who provide services, I want to be able to:**
 
-5. Start development server with npm start
+- Create a profile to offer my services
 
-```
-npm start
-```
+## Server
 
-## CRA docs
+[**Here**](https://github.com/paula-morales/fluffy-world-server) you can find the server repository for this project.
 
-The normal Create React App docs can be found in [CRA_DOCS.md](./CRA_DOCS.md)
+## Technologies used 👩‍💻
+
+- React, React Router DOM
+- Redux, Redux-Thunk
+- React Geocode, Google Maps API
+- CSS, HTML, Bootstrap
+- Axios
+- Express
+- REST API
+- PostgreSQL, Sequelize ORM
+
+## Git workflow
+
+In this project I try to use:
+
+- Good commit messages
+- Well named branches
+- Pull requests with summaries
