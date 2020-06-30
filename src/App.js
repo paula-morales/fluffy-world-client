@@ -11,6 +11,7 @@ import { selectAppLoading } from "./store/appState/selectors";
 import { getUserWithStoredToken } from "./store/user/actions";
 import Homepage from "./pages/Homepage/Homepage";
 import UserServices from "./pages/UserServices";
+import Contact from "./pages/Contact";
 
 const Home = () => <Homepage />;
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/signup" component={SignUp} />
         <Route path="/login" component={Login} />
         <Route path="/userservice/:iduser" component={UserServices} />
+        <Route path="/contact/:iduser" component={Contact} />
       </Switch>
     </div>
   );

@@ -5,6 +5,7 @@ import StarRatings from "react-star-ratings";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProfiles } from "../../store/profiles/actions";
 import { profilesByIdSelector } from "../../store/profiles/selectors";
+import { NavLink } from "react-router-dom";
 
 export default function UserServices() {
   const { iduser } = useParams();
@@ -51,7 +52,9 @@ export default function UserServices() {
             </Row>
             <Row style={{ padding: "2rem" }}>{profile.description}</Row>
             <Row>
-              <Button>Contact {profile.user.firstName}</Button>
+              <NavLink to={`/contact/${profile.user.id}`}>
+                <Button>Contact {profile.user.firstName}</Button>
+              </NavLink>
             </Row>
           </Col>
           <Col>
