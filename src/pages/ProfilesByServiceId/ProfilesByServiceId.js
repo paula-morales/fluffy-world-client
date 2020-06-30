@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import { profilesSelector } from "../../store/profiles/selectors";
-import { Container } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import { Map, Marker, GoogleApiWrapper, InfoWindow } from "google-maps-react";
 import { apiKeyGoogle } from "../../config/constants";
 import calculateDistance from "../../calculateDistance";
 import { fetchServices } from "../../store/typeOfServices/actions";
+import StarRatings from "react-star-ratings";
 
 function ProfilesByServiceId({ google, latitude, longitude }) {
   const profiles = useSelector(profilesSelector);
   const [selectedProfile, setSelectedProfile] = useState(null);
+
   const dispatch = useDispatch();
 
   const markerClickHandler = (event, profile) => {
@@ -98,8 +99,18 @@ function ProfilesByServiceId({ google, latitude, longitude }) {
                   src={selectedProfile.user.profilePicture}
                   alt={selectedProfile.title}
                 />
-                <p>Rating: {selectedProfile.rating}</p>
+                {/* <p>Rating: {selectedProfile.rating}</p> */}
+                <StarRatings
+                  rating={4}
+                  starRatedColor="#ebcc34"
+                  starEmptyColor="grey"
+                  starDimension="20px"
+                  starSpacing="5px"
+                />
                 <p>{selectedProfile.description}</p>
+                <a href={`/userservice/${selectedProfile.user.id}`}>
+                  <Button variant="danger">See details</Button>
+                </a>
               </div>
             </InfoWindow>
           )}

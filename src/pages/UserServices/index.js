@@ -37,7 +37,9 @@ export default function UserServices() {
                 <Row>
                   {" "}
                   <StarRatings
-                    rating={2}
+                    rating={profile.rating}
+                    starRatedColor="#ebcc34"
+                    starEmptyColor="grey"
                     starDimension="20px"
                     starSpacing="5px"
                   />
