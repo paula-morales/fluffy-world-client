@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Container, Col, Row, Image, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import StarRatings from "react-star-ratings";
@@ -37,7 +37,9 @@ export default function UserServices() {
                 <Row>
                   {" "}
                   <StarRatings
-                    rating={2}
+                    rating={profile.rating}
+                    starRatedColor="#ebcc34"
+                    starEmptyColor="grey"
                     starDimension="20px"
                     starSpacing="5px"
                   />
