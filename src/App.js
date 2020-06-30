@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAppLoading } from "./store/appState/selectors";
 import { getUserWithStoredToken } from "./store/user/actions";
 import Homepage from "./pages/Homepage/Homepage";
+import UserServices from "./pages/UserServices";
 
 const Home = () => <Homepage />;
 
@@ -30,6 +31,7 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route path="/signup" component={SignUp} />
         <Route path="/login" component={Login} />
+        <Route path="/userservice/:iduser" component={UserServices} />
       </Switch>
     </div>
   );
