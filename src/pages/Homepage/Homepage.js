@@ -4,7 +4,6 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { typeOfServicesSelector } from "../../store/typeOfServices/selectors";
 import { fetchServices } from "../../store/typeOfServices/actions";
-import { NavLink } from "react-router-dom";
 import Geocode from "react-geocode";
 import { apiKeyGoogle } from "../../config/constants";
 import ProfilesByServiceId from "../ProfilesByServiceId/ProfilesByServiceId";
@@ -14,6 +13,8 @@ export default function Homepage() {
   const [serviceChosen, setServiceChosen] = useState(1);
   const [address, setAddress] = useState();
   const [toggle, setToggle] = useState(false);
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,7 +23,6 @@ export default function Homepage() {
 
   const services = useSelector(typeOfServicesSelector);
 
-  console.log("looking for", serviceChosen, "in", address);
   // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
   Geocode.setApiKey(apiKeyGoogle);
 
@@ -39,6 +39,8 @@ export default function Homepage() {
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
         console.log(lat, lng);
+        setLatitude(lat);
+        setLongitude(lng);
         setToggle(true);
         dispatch(fetchProfiles);
       },
@@ -107,7 +109,9 @@ export default function Homepage() {
           </Form>
         </Container>
       </div>
-      {toggle ? <ProfilesByServiceId /> : null}
+      {toggle ? (
+        <ProfilesByServiceId latitude={latitude} longitude={longitude} />
+      ) : null}
     </div>
   );
 }

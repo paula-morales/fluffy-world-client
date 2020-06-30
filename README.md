@@ -8,7 +8,7 @@ You can find the perfect candidate and be sure that your fluffy friend is in rig
 ## Table of contents:
 
 - **[App demo](#app-demo)**
-- **[Goals for this project](#goals)**
+- **[Goals for this project](#goals-for-this-project)**
 - **[User stories](#user-stories)**
 - **[Server](#server)**
 - **[Technologies used](#technologies-used)**
@@ -18,7 +18,7 @@ You can find the perfect candidate and be sure that your fluffy friend is in rig
 
 ![APP-DEMO](/src/images/01.png)
 
-## Goals 👩🏻‍🏫
+## Goals for this project
 
 The goal of this project is to build a full-stack app using new technologies .
 
@@ -47,7 +47,7 @@ The goal of this project is to build a full-stack app using new technologies .
 
 [**Here**](https://github.com/paula-morales/fluffy-world-server) you can find the server repository for this project.
 
-## Technologies used 👩‍💻
+## Technologies used
 
 - React, React Router DOM
 - Redux, Redux-Thunk

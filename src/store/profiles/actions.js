@@ -10,7 +10,7 @@ export function profilesFetched(payload) {
 
 export async function fetchProfiles(dispatch, getState) {
   try {
-    const res = await axios.get(`${apiUrl}/profile`);
+    const res = await axios.get(`${apiUrl}/userservice`);
     dispatch(profilesFetched(res.data));
   } catch (e) {
     console.log("error", e.message);
