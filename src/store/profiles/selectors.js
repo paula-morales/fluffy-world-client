@@ -1,6 +1,6 @@
-export const profilesByServiceIdSelector = (id) => (state) => {
-  return state.profiles.filter((profile) => {
-    return profile.serviceId === id;
+export const profilesByIdSelector = (id) => (state) => {
+  return state.profiles.find((profile) => {
+    return profile.userId === id;
   });
 };
 
