@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Container, Col, Row, Image, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import StarRatings from "react-star-ratings";

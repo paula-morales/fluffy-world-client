@@ -8,6 +8,18 @@ export function profilesFetched(payload) {
   };
 }
 
+export function fetchProfilesByDistance(serviceId, lat, lng) {
+  return async function thunk(dispatch, getState) {
+    try {
+      const res = await axios.get(
+        `${apiUrl}/userservice/${serviceId}/${lat}/${lng}`
+      );
+      dispatch(profilesFetched(res.data));
+    } catch (e) {
+      console.log("error", e.message);
+    }
+  };
+}
 export async function fetchProfiles(dispatch, getState) {
   try {
     const res = await axios.get(`${apiUrl}/userservice`);

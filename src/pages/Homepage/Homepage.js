@@ -7,7 +7,7 @@ import { fetchServices } from "../../store/typeOfServices/actions";
 import Geocode from "react-geocode";
 import { apiKeyGoogle } from "../../config/constants";
 import ProfilesByServiceId from "../ProfilesByServiceId/ProfilesByServiceId";
-import { fetchProfiles } from "../../store/profiles/actions";
+import { fetchProfilesByDistance } from "../../store/profiles/actions";
 
 export default function Homepage() {
   const [serviceChosen, setServiceChosen] = useState(1);
@@ -25,24 +25,17 @@ export default function Homepage() {
 
   // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
   Geocode.setApiKey(apiKeyGoogle);
-
-  // set response language. Defaults to english.
-  Geocode.setLanguage("en");
-
-  // set response region. Its optional.
-  // A Geocoding request with region=es (Spain) will return the Spanish city.
   Geocode.setRegion("nl");
-  function getLatLong() {
-    // Get latidude & longitude from address.
 
+  // Get latidude & longitude from address.
+  function getCoordinates() {
     Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
-        console.log(lat, lng);
         setLatitude(lat);
         setLongitude(lng);
         setToggle(true);
-        dispatch(fetchProfiles);
+        dispatch(fetchProfilesByDistance(serviceChosen, lat, lng));
       },
       (error) => {
         console.error(error);
@@ -95,15 +88,13 @@ export default function Homepage() {
                 </Form.Group>
               </Col>
               <Col>
-                {/* <NavLink to={`/service/${serviceChosen}`}> */}
                 <Button
-                  onClick={getLatLong}
+                  onClick={getCoordinates}
                   variant="danger"
                   className="button-search"
                 >
                   Search
                 </Button>
-                {/* </NavLink> */}
               </Col>{" "}
             </Row>
           </Form>
