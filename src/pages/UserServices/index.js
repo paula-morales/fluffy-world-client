@@ -14,7 +14,7 @@ export default function UserServices() {
     dispatch(fetchProfiles);
   }, [dispatch]);
   const profile = useSelector(profilesByIdSelector(parseInt(iduser)));
-  console.log(profile);
+
   return (
     <Container>
       {profile ? (
