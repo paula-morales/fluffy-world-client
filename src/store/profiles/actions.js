@@ -1,5 +1,6 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
+import { showMessageWithTimeout } from "../appState/actions";
 
 export function profilesFetched(payload) {
   return {
@@ -17,6 +18,7 @@ export function fetchProfilesByDistance(serviceId, lat, lng) {
       dispatch(profilesFetched(res.data));
     } catch (e) {
       console.log("error", e.message);
+      dispatch(showMessageWithTimeout("danger", true, "Something went wrong"));
     }
   };
 }
@@ -26,5 +28,37 @@ export async function fetchProfiles(dispatch, getState) {
     dispatch(profilesFetched(res.data));
   } catch (e) {
     console.log("error", e.message);
+    dispatch(showMessageWithTimeout("danger", true, "Something went wrong"));
   }
+}
+
+export function sendEmail(id, date, time, message, serviceId) {
+  return async function thunk(dispatch, getState) {
+    try {
+      const token = getState().user.token;
+
+      const res = await axios.post(
+        `${apiUrl}/userservice/contact/`,
+        {
+          mailToId: id,
+          date,
+          time,
+          message,
+          serviceId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+      dispatch(
+        showMessageWithTimeout("success", true, "Your request was sent!")
+      );
+    } catch (e) {
+      console.log("error", e.message);
+      dispatch(showMessageWithTimeout("danger", true, "Something went wrong"));
+    }
+  };
 }
