@@ -3,14 +3,14 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectToken } from "../../store/user/selectors";
+import { selectToken, selectUser } from "../../store/user/selectors";
 import NavbarItem from "./NavbarItem";
 import LoggedIn from "./LoggedIn";
 import LoggedOut from "./LoggedOut";
 
 export default function Navigation() {
   const token = useSelector(selectToken);
-
+  const user = useSelector(selectUser);
   const loginLogoutControls = token ? <LoggedIn /> : <LoggedOut />;
 
   return (
@@ -38,7 +38,15 @@ export default function Navigation() {
       <Navbar.Collapse id="basic-navbar-nav" style={{ flexGrow: 0 }}>
         <Nav>
           {!token ? <NavbarItem path="/signup" linkText="Sign up" /> : null}
-
+          {user.isOwner ? (
+            <NavbarItem path="/registerpet" linkText="Register your pet" />
+          ) : null}
+          {user.isCandidate ? (
+            <NavbarItem
+              path="/registerservice"
+              linkText="Register your service"
+            />
+          ) : null}
           {loginLogoutControls}
         </Nav>
       </Navbar.Collapse>
