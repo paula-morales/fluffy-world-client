@@ -26,6 +26,9 @@ export default function RegisterYourPet() {
     } else {
       dispatch(registerPet(name, description, picture));
     }
+    setName("");
+    setDescription("");
+    setPicture("");
   }
 
   return (

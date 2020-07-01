@@ -31,9 +31,9 @@ export default function SignUp() {
 
   useEffect(() => {
     if (user.isOwner) {
-      history.push("/registeryourpet");
+      history.push("/registerpet");
     } else if (user.isCandidate) {
-      history.push("/registeryourservice");
+      history.push("/registerservice");
     }
   }, [user, history]);
 
