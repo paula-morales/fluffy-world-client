@@ -38,6 +38,11 @@ export default function RegisterYourService() {
     } else {
       dispatch(registerService(title, price, description, picture, serviceId));
     }
+    setTitle("");
+    setPrice("");
+    setDescription("");
+    setPicture("");
+    setService("");
   }
 
   return (
@@ -98,7 +103,9 @@ export default function RegisterYourService() {
               as="select"
               onChange={(event) => setService(parseInt(event.target.value))}
             >
-              <option>Select</option>
+              <option value="" selected disabled hidden>
+                Select
+              </option>
               {servicesList
                 ? servicesList.map((service) => (
                     <option key={service.id} value={service.id}>
