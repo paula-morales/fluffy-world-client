@@ -113,7 +113,7 @@ function ProfilesByServiceId({ google, latitude, longitude }) {
                   <Row>
                     <Col>
                       <StarRatings
-                        rating={4}
+                        rating={selectedProfile.user.rating}
                         starRatedColor="#ebcc34"
                         starEmptyColor="grey"
                         starDimension="20px"

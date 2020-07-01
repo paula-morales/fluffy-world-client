@@ -62,3 +62,65 @@ export function sendEmail(id, date, time, message, serviceId) {
     }
   };
 }
+
+export function registerPet(name, description, picture) {
+  return async function thunk(dispatch, getState) {
+    try {
+      const token = getState().user.token;
+
+      const res = await axios.post(
+        `${apiUrl}/userservice/registerpet/`,
+        {
+          name,
+          description,
+          picture,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(res.data);
+      dispatch(
+        showMessageWithTimeout("success", true, "Your pet was registered!")
+      );
+    } catch (e) {
+      console.log("error", e.message);
+      dispatch(showMessageWithTimeout("danger", true, "Something went wrong"));
+    }
+  };
+}
+
+export function registerService(title, price, description, picture, serviceId) {
+  return async function thunk(dispatch, getState) {
+    try {
+      const token = getState().user.token;
+
+      const res = await axios.post(
+        `${apiUrl}/userservice/registerservice/`,
+        {
+          title,
+          price,
+          description,
+          picture,
+          serviceId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(res.data);
+      dispatch(
+        showMessageWithTimeout("success", true, "Your pet was registered!")
+      );
+    } catch (e) {
+      console.log("error", e.message);
+      dispatch(showMessageWithTimeout("danger", true, "Something went wrong"));
+    }
+  };
+}

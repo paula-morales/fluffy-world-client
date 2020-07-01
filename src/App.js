@@ -12,6 +12,8 @@ import { getUserWithStoredToken } from "./store/user/actions";
 import Homepage from "./pages/Homepage/Homepage";
 import UserServices from "./pages/UserServices";
 import Contact from "./pages/Contact";
+import RegisterYourPet from "./pages/RegisterYourPet/RegisterYourPet";
+import RegisterYourService from "./pages/RegisterYourService/RegisterYourService";
 
 const Home = () => <Homepage />;
 
@@ -34,6 +36,8 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/userservice/:iduser" component={UserServices} />
         <Route path="/contact/:iduser" component={Contact} />
+        <Route path="/registerpet" component={RegisterYourPet} />
+        <Route path="/registerservice" component={RegisterYourService} />
       </Switch>
     </div>
   );
