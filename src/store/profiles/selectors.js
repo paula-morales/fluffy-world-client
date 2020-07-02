@@ -1,6 +1,6 @@
 export const profilesByIdSelector = (id) => (state) => {
   return state.profiles.find((profile) => {
-    return profile.userId === id;
+    return profile.id === id;
   });
 };
 
