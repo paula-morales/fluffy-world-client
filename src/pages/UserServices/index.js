@@ -18,7 +18,7 @@ import { fetchReviews, addReview } from "../../store/reviews/actions";
 export default function UserServices() {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const { iduser } = useParams();
+  const { idUserService } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchProfiles);
@@ -26,7 +26,7 @@ export default function UserServices() {
     dispatch(fetchReviews);
   }, [dispatch]);
 
-  const profile = useSelector(profilesByIdSelector(parseInt(iduser)));
+  const profile = useSelector(profilesByIdSelector(parseInt(idUserService)));
   const token = useSelector(selectToken);
   const typeOfServices = useSelector(typeOfServicesSelector);
   const reviews = useSelector(reviewsSelector);
