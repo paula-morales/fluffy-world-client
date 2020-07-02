@@ -22,6 +22,7 @@ export function fetchProfilesByDistance(serviceId, lat, lng) {
     }
   };
 }
+
 export async function fetchProfiles(dispatch, getState) {
   try {
     const res = await axios.get(`${apiUrl}/userservice`);
