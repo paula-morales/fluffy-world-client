@@ -5,6 +5,7 @@ export default (state = initialState, { type, payload }) => {
     case "profiles_fetched": {
       return payload;
     }
+
     default:
       return state;
   }
