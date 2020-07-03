@@ -38,16 +38,21 @@ export default function Contact() {
     serviceSelected = typeOfServices.find((service) => {
       return service.id === profile.serviceId;
     });
-  }
-
-  for (let hour = 8; hour < 16; hour++) {
-    hours.push(moment({ hour }).format("HH:mm"));
-    hours.push(
-      moment({
-        hour,
-        minute: 30,
-      }).format("HH:mm")
-    );
+    console.log(profile);
+    for (
+      let hour = profile.availableFrom;
+      hour < profile.availableUntil;
+      hour++
+    ) {
+      hours.push(moment({ hour }).format("HH:mm"));
+      hours.push(
+        moment({
+          hour,
+          minute: 30,
+        }).format("HH:mm")
+      );
+    }
+    console.log(hours);
   }
 
   function onSubmitHandler(e) {
@@ -87,15 +92,19 @@ export default function Contact() {
             />
           </Form.Group>
           <Form.Group controlId="formBasicHour">
-            <Form.Label>Choose a time</Form.Label>
+            <Form.Label>
+              Choose a time. {profile.user.firstName} is available from{" "}
+              <strong>{profile.availableFrom}h</strong> until{" "}
+              <strong>{profile.availableUntil}h</strong>.
+            </Form.Label>
             <Form.Control
               as="select"
               onChange={(event) => setHour(event.target.value)}
             >
               <option>Select</option>
-              {hours.map((hour) => (
-                <option key={hour}>{hour}</option>
-              ))}
+              {hours
+                ? hours.map((hour) => <option key={hour}>{hour}</option>)
+                : null}
             </Form.Control>
           </Form.Group>
 
