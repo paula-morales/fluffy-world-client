@@ -117,7 +117,7 @@ export function registerService(title, price, description, picture, serviceId) {
 
       console.log(res.data);
       dispatch(
-        showMessageWithTimeout("success", true, "Your pet was registered!")
+        showMessageWithTimeout("success", true, "Your service was registered!")
       );
     } catch (e) {
       console.log("error", e.message);
