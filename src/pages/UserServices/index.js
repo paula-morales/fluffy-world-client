@@ -16,24 +16,30 @@ import { reviewsSelector } from "../../store/reviews/selector";
 import { fetchReviews, addReview } from "../../store/reviews/actions";
 import { selectUser } from "../../store/user/selectors";
 import "../RegisterYourService/RegisterYourService.css";
+import { fetchFavorites } from "../../store/favorites/actions";
+import { selectFavorites } from "../../store/favorites/selector";
 
 export default function UserServices() {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const { idUserService } = useParams();
   const dispatch = useDispatch();
+  const token = useSelector(selectToken);
 
   useEffect(() => {
     dispatch(fetchProfiles);
     dispatch(fetchServices);
     dispatch(fetchReviews);
+    if (token) {
+      dispatch(fetchFavorites);
+    }
   }, [dispatch]);
 
   const profile = useSelector(profilesByIdSelector(parseInt(idUserService)));
-  const token = useSelector(selectToken);
   const typeOfServices = useSelector(typeOfServicesSelector);
   const reviews = useSelector(reviewsSelector);
   const user = useSelector(selectUser);
+  const favorites = useSelector(selectFavorites);
 
   let service; //display the name of service offered
   let reviewsToDisplay; //display reviews
@@ -101,6 +107,15 @@ export default function UserServices() {
     setComment("");
   }
 
+  //to check if the profile is part of your favorites
+  let isFavorite;
+  if (favorites) {
+    isFavorite = favorites.find((fav) => {
+      return fav.userServiceId === parseInt(idUserService);
+    });
+    console.log(isFavorite);
+  }
+
   return (
     <Container>
       <Container>
@@ -120,7 +135,16 @@ export default function UserServices() {
                 </Col>
                 <Col>
                   <Row>Service: {service.name}</Row>
-                  <Row>{profile.title}</Row>
+                  <Row>
+                    {profile.title}
+                    {token ? (
+                      isFavorite ? (
+                        <span>❤️</span>
+                      ) : (
+                        <span>♡</span>
+                      )
+                    ) : null}
+                  </Row>
                   <Row>{profile.user.firstName}</Row>
                   <Row>
                     {" "}
