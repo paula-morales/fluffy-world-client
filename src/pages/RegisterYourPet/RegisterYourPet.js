@@ -10,6 +10,8 @@ export default function RegisterYourPet() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [picture, setPicture] = useState("");
+  const [availableFrom, setAvailableFrom] = useState(10);
+  const [availableUntil, setAvailableUntil] = useState(16);
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector(selectUser);
@@ -19,12 +21,20 @@ export default function RegisterYourPet() {
     }
   }, [user, history]);
   function handlerSubmit() {
-    if (!picture || !name || !description) {
+    if (
+      !picture ||
+      !name ||
+      !description ||
+      !availableFrom ||
+      !availableUntil
+    ) {
       dispatch(
         showMessageWithTimeout("danger", true, "Please fill out all the fields")
       );
     } else {
-      dispatch(registerPet(name, description, picture));
+      dispatch(
+        registerPet(name, description, picture, availableFrom, availableUntil)
+      );
     }
     setName("");
     setDescription("");
@@ -35,7 +45,7 @@ export default function RegisterYourPet() {
     <>
       <Jumbotron>
         <Container>
-          <h1>Register Your Pet</h1>
+          <h1>Register your pet to meet some new pet friends!</h1>
         </Container>
       </Jumbotron>
       <Container>
@@ -68,6 +78,30 @@ export default function RegisterYourPet() {
               onChange={(event) => setPicture(event.target.value)}
               type="text"
               placeholder="Enter picture"
+              required
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicAvailableFrom">
+            <Form.Label>
+              Available From - <i>format 24H</i>
+            </Form.Label>
+            <Form.Control
+              value={availableFrom}
+              onChange={(event) => setAvailableFrom(event.target.value)}
+              type="text"
+              placeholder="Enter a number (format 24H)"
+              required
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicAvailableUntil">
+            <Form.Label>
+              Available Until - <i>format 24H</i>
+            </Form.Label>
+            <Form.Control
+              value={availableUntil}
+              onChange={(event) => setAvailableUntil(event.target.value)}
+              type="text"
+              placeholder="Enter a number (format 24H)"
               required
             />
           </Form.Group>

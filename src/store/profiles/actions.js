@@ -64,7 +64,13 @@ export function sendEmail(id, date, time, message, serviceId) {
   };
 }
 
-export function registerPet(name, description, picture) {
+export function registerPet(
+  name,
+  description,
+  picture,
+  availableFrom,
+  availableUntil
+) {
   return async function thunk(dispatch, getState) {
     try {
       const token = getState().user.token;
@@ -75,6 +81,8 @@ export function registerPet(name, description, picture) {
           name,
           description,
           picture,
+          availableFrom,
+          availableUntil,
         },
         {
           headers: {
