@@ -38,7 +38,7 @@ export default function Contact() {
     serviceSelected = typeOfServices.find((service) => {
       return service.id === profile.serviceId;
     });
-    console.log(profile);
+
     for (
       let hour = profile.availableFrom;
       hour < profile.availableUntil;
@@ -52,7 +52,6 @@ export default function Contact() {
         }).format("HH:mm")
       );
     }
-    console.log(hours);
   }
 
   function onSubmitHandler(e) {
