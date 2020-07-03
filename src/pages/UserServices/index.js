@@ -14,6 +14,7 @@ import { typeOfServicesSelector } from "../../store/typeOfServices/selectors";
 import moment from "moment";
 import { reviewsSelector } from "../../store/reviews/selector";
 import { fetchReviews, addReview } from "../../store/reviews/actions";
+import { selectUser } from "../../store/user/selectors";
 
 export default function UserServices() {
   const [rating, setRating] = useState(0);
@@ -30,6 +31,7 @@ export default function UserServices() {
   const token = useSelector(selectToken);
   const typeOfServices = useSelector(typeOfServicesSelector);
   const reviews = useSelector(reviewsSelector);
+  const user = useSelector(selectUser);
 
   let service;
   let reviewsToDisplay;
@@ -75,9 +77,18 @@ export default function UserServices() {
           "You need to log in to leave a comment"
         )
       );
+    } else if (user.isCandidate) {
+      dispatch(
+        showMessageWithTimeout(
+          "danger",
+          true,
+          "You can leave a review only if you are register as owner"
+        )
+      );
     } else {
       dispatch(addReview(rating, comment, profile.id));
     }
+
     setRating(0);
     setComment("");
   }
@@ -153,14 +164,16 @@ export default function UserServices() {
               ))}
             </div>
           ) : (
-            <h2>No reviews yet</h2>
+            <h2>Leave the first review!</h2>
           )
         ) : null}
       </Container>
       <Form>
         <Form.Group>
           <Row>
-            <Form.Label>Leave a review</Form.Label>
+            <Form.Label>
+              Leave a review (only if you are registered as owner)
+            </Form.Label>
           </Row>
 
           <Row>
