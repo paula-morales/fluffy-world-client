@@ -6,6 +6,10 @@ import { useHistory } from "react-router-dom";
 import { selectUser } from "../../store/user/selectors";
 import { registerService } from "../../store/profiles/actions";
 import { typeOfServicesSelector } from "../../store/typeOfServices/selectors";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { languageList } from "../../config/languagesList";
+import "./RegisterYourService.css";
 
 export default function RegisterYourService() {
   const [title, setTitle] = useState("");
@@ -18,17 +22,17 @@ export default function RegisterYourService() {
   const user = useSelector(selectUser);
   const servicesList = useSelector(typeOfServicesSelector);
 
-  for (var i = servicesList.length - 1; i >= 0; i--) {
-    if (servicesList[i].name === "pet friends") {
-      servicesList.splice(i, 1);
-    }
-  }
-
   useEffect(() => {
     if (!user.isCandidate) {
       history.push("/");
     }
   }, [user, history]);
+
+  for (var j = servicesList.length - 1; j >= 0; j--) {
+    if (servicesList[j].name === "pet friends") {
+      servicesList.splice(j, 1);
+    }
+  }
 
   function handlerSubmit() {
     if (!picture || !title || !price || !serviceId || !description) {
@@ -43,6 +47,21 @@ export default function RegisterYourService() {
     setDescription("");
     setPicture("");
     setService("");
+  }
+
+  let languages = [];
+  function addLanguage() {
+    var input = document.getElementById("inputLanguage");
+    languages.push(input.value);
+    input.value = "";
+    console.log("language", languages);
+    document.getElementById("values").innerHTML = languages.join(" ");
+    let e = "";
+
+    for (let y = 0; y < languages.length; y++) {
+      e += `<span class="tag">${languages[y]}</span>`;
+    }
+    document.getElementById("values").innerHTML = e;
   }
 
   return (
@@ -86,6 +105,22 @@ export default function RegisterYourService() {
               required
             />
           </Form.Group>
+
+          <Form.Group className="container-tags">
+            <Autocomplete
+              id="inputLanguage"
+              options={languageList}
+              getOptionLabel={(option) => option.title}
+              style={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField {...params} label="Language" variant="outlined" />
+              )}
+            />
+            <button type="button" id="add" onClick={addLanguage}>
+              Add{" "}
+            </button>{" "}
+            <div id="values"></div>
+          </Form.Group>
           <Form.Group controlId="formBasicPicture">
             <Form.Label>Picture</Form.Label>
             <Form.Control
@@ -103,9 +138,7 @@ export default function RegisterYourService() {
               as="select"
               onChange={(event) => setService(parseInt(event.target.value))}
             >
-              <option value="" selected disabled hidden>
-                Select
-              </option>
+              <option defaultValue>Select</option>
               {servicesList
                 ? servicesList.map((service) => (
                     <option key={service.id} value={service.id}>
