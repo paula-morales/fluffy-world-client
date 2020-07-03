@@ -14,6 +14,7 @@ import UserServices from "./pages/UserServices";
 import Contact from "./pages/Contact";
 import RegisterYourPet from "./pages/RegisterYourPet/RegisterYourPet";
 import RegisterYourService from "./pages/RegisterYourService/RegisterYourService";
+import UserDetails from "./pages/UserDetails";
 
 const Home = () => <Homepage />;
 
@@ -38,6 +39,7 @@ function App() {
         <Route path="/contact/:iduser" component={Contact} />
         <Route path="/registerpet" component={RegisterYourPet} />
         <Route path="/registerservice" component={RegisterYourService} />
+        <Route path="/user" component={UserDetails} />
       </Switch>
     </div>
   );
