@@ -6,10 +6,6 @@ import { useHistory } from "react-router-dom";
 import { selectUser } from "../../store/user/selectors";
 import { registerService } from "../../store/profiles/actions";
 import { typeOfServicesSelector } from "../../store/typeOfServices/selectors";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { languageList } from "../../config/languagesList";
-import "./RegisterYourService.css";
 
 export default function RegisterYourService() {
   const [title, setTitle] = useState("");
@@ -23,11 +19,13 @@ export default function RegisterYourService() {
   const servicesList = useSelector(typeOfServicesSelector);
 
   useEffect(() => {
+    //you only can access if you are a candidate
     if (!user.isCandidate) {
       history.push("/");
     }
   }, [user, history]);
 
+  //you cannot choose the service called "pet friends", that is only to register pets
   for (var j = servicesList.length - 1; j >= 0; j--) {
     if (servicesList[j].name === "pet friends") {
       servicesList.splice(j, 1);
@@ -47,21 +45,6 @@ export default function RegisterYourService() {
     setDescription("");
     setPicture("");
     setService("");
-  }
-
-  let languages = [];
-  function addLanguage() {
-    var input = document.getElementById("inputLanguage");
-    languages.push(input.value);
-    input.value = "";
-    console.log("language", languages);
-    document.getElementById("values").innerHTML = languages.join(" ");
-    let e = "";
-
-    for (let y = 0; y < languages.length; y++) {
-      e += `<span class="tag">${languages[y]}</span>`;
-    }
-    document.getElementById("values").innerHTML = e;
   }
 
   return (
@@ -106,21 +89,6 @@ export default function RegisterYourService() {
             />
           </Form.Group>
 
-          <Form.Group className="container-tags">
-            <Autocomplete
-              id="inputLanguage"
-              options={languageList}
-              getOptionLabel={(option) => option.title}
-              style={{ width: 300 }}
-              renderInput={(params) => (
-                <TextField {...params} label="Language" variant="outlined" />
-              )}
-            />
-            <button type="button" id="add" onClick={addLanguage}>
-              Add{" "}
-            </button>{" "}
-            <div id="values"></div>
-          </Form.Group>
           <Form.Group controlId="formBasicPicture">
             <Form.Label>Picture</Form.Label>
             <Form.Control
@@ -133,7 +101,7 @@ export default function RegisterYourService() {
           </Form.Group>
 
           <Form.Group controlId="formBasicService">
-            <Form.Label className="label-text">Service</Form.Label>
+            <Form.Label>Choose a service</Form.Label>
             <Form.Control
               as="select"
               onChange={(event) => setService(parseInt(event.target.value))}
@@ -148,6 +116,7 @@ export default function RegisterYourService() {
                 : null}
             </Form.Control>
           </Form.Group>
+
           <Button variant="danger" type="submit" onClick={handlerSubmit}>
             Submit
           </Button>

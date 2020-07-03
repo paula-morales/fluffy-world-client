@@ -33,6 +33,7 @@ export const signUp = (
   phoneNumber,
   lat,
   lng,
+  languages,
   email,
   password,
   isOwner,
@@ -50,6 +51,7 @@ export const signUp = (
         password,
         latitude: lat,
         longitude: lng,
+        languages,
         isOwner,
         isCandidate,
       });

@@ -10,6 +10,10 @@ import { Col, Row } from "react-bootstrap";
 import Geocode from "react-geocode";
 import { apiKeyGoogle } from "../../config/constants";
 import { showMessageWithTimeout } from "../../store/appState/actions";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { languageList } from "../../config/languagesList";
+import "./Signup.css";
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -19,6 +23,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
+  const [language, setLanguage] = useState([]);
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const history = useHistory();
@@ -40,8 +45,17 @@ export default function SignUp() {
   Geocode.setApiKey(apiKeyGoogle);
   Geocode.setRegion("nl");
 
+  //to set languages chosen
+
+  function addLanguage() {
+    var input = document.getElementById("inputLanguage");
+    setLanguage([...language, input.value]);
+    input.value = "";
+  }
+
   let isOwner = false;
   let isCandidate = false;
+
   function submitForm(event) {
     event.preventDefault();
     if (radioValue === "1") {
@@ -58,6 +72,7 @@ export default function SignUp() {
       !email ||
       !password ||
       !address ||
+      !language.length ||
       (!isOwner && !isCandidate) ||
       (isOwner && isCandidate)
     ) {
@@ -77,6 +92,7 @@ export default function SignUp() {
               phoneNumber,
               lat,
               lng,
+              language,
               email,
               password,
               isOwner,
@@ -104,6 +120,7 @@ export default function SignUp() {
     setAddress("");
     setRadioValue("");
     setProfilePicture("");
+    setLanguage([]);
   }
 
   return (
@@ -166,6 +183,32 @@ export default function SignUp() {
             required
           />
         </Form.Group>
+
+        <Form.Group controlId="array-languages" className="container-tags">
+          <Autocomplete
+            id="inputLanguage"
+            options={languageList}
+            getOptionLabel={(option) => option.title}
+            style={{ width: 300 }}
+            renderInput={(params) => (
+              <TextField {...params} label="Language" variant="outlined" />
+            )}
+          />
+          <button type="button" id="add" onClick={addLanguage}>
+            Add{" "}
+          </button>{" "}
+          {/* <div id="values"></div> */}
+          {language
+            ? language.length
+              ? language.map((lang) => (
+                  <div className="tag" key={lang}>
+                    {lang}
+                  </div>
+                ))
+              : null
+            : null}
+        </Form.Group>
+
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
