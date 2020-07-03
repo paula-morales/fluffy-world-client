@@ -102,7 +102,15 @@ export function registerPet(
   };
 }
 
-export function registerService(title, price, description, picture, serviceId) {
+export function registerService(
+  title,
+  price,
+  description,
+  picture,
+  serviceId,
+  availableFrom,
+  availableUntil
+) {
   return async function thunk(dispatch, getState) {
     try {
       const token = getState().user.token;
@@ -115,6 +123,8 @@ export function registerService(title, price, description, picture, serviceId) {
           description,
           picture,
           serviceId,
+          availableFrom,
+          availableUntil,
         },
         {
           headers: {
