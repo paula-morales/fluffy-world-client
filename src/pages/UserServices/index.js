@@ -15,12 +15,14 @@ import moment from "moment";
 import { reviewsSelector } from "../../store/reviews/selector";
 import { fetchReviews, addReview } from "../../store/reviews/actions";
 import { selectUser } from "../../store/user/selectors";
+import "../RegisterYourService/RegisterYourService.css";
 
 export default function UserServices() {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const { idUserService } = useParams();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchProfiles);
     dispatch(fetchServices);
@@ -33,17 +35,23 @@ export default function UserServices() {
   const reviews = useSelector(reviewsSelector);
   const user = useSelector(selectUser);
 
-  let service;
-  let reviewsToDisplay;
-  let average;
+  let service; //display the name of service offered
+  let reviewsToDisplay; //display reviews
+  let average; //display average of rating
+
+  //first we need to fetch the profile
   if (profile) {
+    //find the service
     service = typeOfServices.find((service) => {
       return service.id === profile.serviceId;
     });
+
+    //filter the reviews to display
     reviewsToDisplay = reviews.filter((review) => {
       return profile.id === review.userServiceId;
     });
 
+    //if there are reviews, order per date and calculate average rating
     if (reviews.length) {
       reviewsToDisplay.sort(function compare(a, b) {
         var dateA = new Date(a.createdAt);
@@ -62,6 +70,7 @@ export default function UserServices() {
     setRating(newRating);
   }
 
+  //submit a new review
   function handlerSubmit(e) {
     e.preventDefault();
 
@@ -88,7 +97,6 @@ export default function UserServices() {
     } else {
       dispatch(addReview(rating, comment, profile.id));
     }
-
     setRating(0);
     setComment("");
   }
@@ -122,6 +130,15 @@ export default function UserServices() {
                       starDimension="20px"
                       starSpacing="5px"
                     />
+                  </Row>
+                  <Row>
+                    {profile.user.languages.length
+                      ? profile.user.languages.map((lang) => (
+                          <span className="tag" key={lang.name}>
+                            {lang.name}
+                          </span>
+                        ))
+                      : null}
                   </Row>
                 </Col>
 
