@@ -101,99 +101,103 @@ export default function RegisterYourService() {
           <h1>Register Your Service</h1>
         </Container>
       </Jumbotron>
-      <Container>
-        <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
-          <Form.Group controlId="formBasicTitle">
-            <Form.Label>Title</Form.Label>
-            <Form.Control
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
-              type="text"
-              placeholder="Enter title"
-              required
-            />
-          </Form.Group>
+      {!servicesList.length ? (
+        <Container>
+          <h3>Sorry, you already registered all the services</h3>
+        </Container>
+      ) : (
+        <Container>
+          <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
+            <Form.Group controlId="formBasicTitle">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
+                type="text"
+                placeholder="Enter title"
+                required
+              />
+            </Form.Group>
 
-          <Form.Group controlId="formBasicPrice">
-            <Form.Label>Price (EUR/h)</Form.Label>
-            <Form.Control
-              value={price}
-              onChange={(event) => setPrice(event.target.value)}
-              type="text"
-              placeholder="Enter price"
-              required
-            />
-          </Form.Group>
+            <Form.Group controlId="formBasicPrice">
+              <Form.Label>Price (EUR/h)</Form.Label>
+              <Form.Control
+                value={price}
+                onChange={(event) => setPrice(event.target.value)}
+                type="text"
+                placeholder="Enter price"
+                required
+              />
+            </Form.Group>
 
-          <Form.Group controlId="formBasicDescription">
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              value={description}
-              onChange={(event) => setDescription(event.target.value)}
-              type="text"
-              placeholder="Enter description"
-              required
-            />
-          </Form.Group>
+            <Form.Group controlId="formBasicDescription">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+                type="text"
+                placeholder="Enter description"
+                required
+              />
+            </Form.Group>
 
-          <Form.Group controlId="formBasicPicture">
-            <Form.Label>Picture</Form.Label>
-            <Form.Control
-              value={picture}
-              onChange={(event) => setPicture(event.target.value)}
-              type="text"
-              placeholder="Enter picture"
-              required
-            />
-          </Form.Group>
+            <Form.Group controlId="formBasicPicture">
+              <Form.Label>Picture</Form.Label>
+              <Form.Control
+                value={picture}
+                onChange={(event) => setPicture(event.target.value)}
+                type="text"
+                placeholder="Enter picture"
+                required
+              />
+            </Form.Group>
 
-          <Form.Group controlId="formBasicAvailableFrom">
-            <Form.Label>
-              Available From - <i>format 24H</i>
-            </Form.Label>
-            <Form.Control
-              value={availableFrom}
-              onChange={(event) => setAvailableFrom(event.target.value)}
-              type="text"
-              placeholder="Enter a number (format 24H)"
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="formBasicAvailableUntil">
-            <Form.Label>
-              Available Until - <i>format 24H</i>
-            </Form.Label>
-            <Form.Control
-              value={availableUntil}
-              onChange={(event) => setAvailableUntil(event.target.value)}
-              type="text"
-              placeholder="Enter a number (format 24H)"
-              required
-            />
-          </Form.Group>
+            <Form.Group controlId="formBasicAvailableFrom">
+              <Form.Label>
+                Available From - <i>format 24H</i>
+              </Form.Label>
+              <Form.Control
+                value={availableFrom}
+                onChange={(event) => setAvailableFrom(event.target.value)}
+                type="text"
+                placeholder="Enter a number (format 24H)"
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicAvailableUntil">
+              <Form.Label>
+                Available Until - <i>format 24H</i>
+              </Form.Label>
+              <Form.Control
+                value={availableUntil}
+                onChange={(event) => setAvailableUntil(event.target.value)}
+                type="text"
+                placeholder="Enter a number (format 24H)"
+                required
+              />
+            </Form.Group>
 
-          <Form.Group controlId="formBasicService">
-            <Form.Label>Choose a service</Form.Label>
-            <Form.Control
-              as="select"
-              onChange={(event) => setService(parseInt(event.target.value))}
-            >
-              <option defaultValue>Select</option>
-              {servicesList
-                ? servicesList.map((service) => (
-                    <option key={service.id} value={service.id}>
-                      {service.name}
-                    </option>
-                  ))
-                : null}
-            </Form.Control>
-          </Form.Group>
+            <Form.Group controlId="formBasicService">
+              <Form.Label>Choose a service</Form.Label>
+              <Form.Control
+                as="select"
+                onChange={(event) => setService(parseInt(event.target.value))}
+              >
+                <option defaultValue>Select</option>
+                {servicesList.map((service) => (
+                  <option key={service.id} value={service.id}>
+                    {service.name}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
 
-          <Button variant="danger" type="submit" onClick={handlerSubmit}>
-            Submit
-          </Button>
-        </Form>
-      </Container>
+            <Button variant="danger" type="submit" onClick={handlerSubmit}>
+              Submit
+            </Button>
+          </Form>
+        </Container>
+      )}
     </>
   );
 }
