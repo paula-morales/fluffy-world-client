@@ -216,47 +216,47 @@ export default function UserServices() {
               ))}
             </div>
           ) : (
-            <h2>Leave the first review!</h2>
+            <h2>No reviews</h2>
           )
         ) : null}
       </Container>
-      <Form>
-        <Form.Group>
-          <Row>
-            <Form.Label>
-              Leave a review (only if you are registered as owner)
-            </Form.Label>
-          </Row>
+      {user.isOwner ? (
+        <Form>
+          <Form.Group>
+            <Row>
+              <Form.Label>Leave a review</Form.Label>
+            </Row>
 
-          <Row>
-            {" "}
-            <StarRatings
-              rating={rating}
-              starRatedColor="#ebcc34"
-              changeRating={changeRating}
-              numberOfStars={5}
-              name="rating"
-              starDimension="35px"
-              starSpacing="5px"
-            />
-          </Row>
-        </Form.Group>
-        <Form.Group>
-          <Row>
-            <Form.Label>Comment</Form.Label>
-          </Row>
-          <Row>
-            <Form.Control
-              value={comment}
-              type="text"
-              onChange={(e) => setComment(e.target.value)}
-            />
-          </Row>
-        </Form.Group>
-        <Button variant="danger" onClick={handlerSubmit}>
-          Submit
-        </Button>
-      </Form>
+            <Row>
+              {" "}
+              <StarRatings
+                rating={rating}
+                starRatedColor="#ebcc34"
+                changeRating={changeRating}
+                numberOfStars={5}
+                name="rating"
+                starDimension="35px"
+                starSpacing="5px"
+              />
+            </Row>
+          </Form.Group>
+          <Form.Group>
+            <Row>
+              <Form.Label>Comment</Form.Label>
+            </Row>
+            <Row>
+              <Form.Control
+                value={comment}
+                type="text"
+                onChange={(e) => setComment(e.target.value)}
+              />
+            </Row>
+          </Form.Group>
+          <Button variant="danger" onClick={handlerSubmit}>
+            Submit
+          </Button>
+        </Form>
+      ) : null}
     </Container>
   );
 }
