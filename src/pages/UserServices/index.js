@@ -156,7 +156,11 @@ export default function UserServices() {
                       )
                     ) : null}
                   </Row>
-                  <Row>{profile.user.firstName}</Row>
+                  <Row>
+                    <NavLink to={`/user/${profile.userId}`}>
+                      {profile.user.firstName}
+                    </NavLink>
+                  </Row>
                   <Row>
                     {" "}
                     <StarRatings
@@ -175,6 +179,8 @@ export default function UserServices() {
                         ))
                       : null}
                   </Row>
+                  <Row>Available from {profile.availableFrom} h</Row>
+                  <Row>Available until {profile.availableUntil} h</Row>
                 </Col>
 
                 {profile.user.isOwner ? null : (
