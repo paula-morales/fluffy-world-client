@@ -14,7 +14,8 @@ import UserServices from "./pages/UserServices";
 import Contact from "./pages/Contact";
 import RegisterYourPet from "./pages/RegisterYourPet/RegisterYourPet";
 import RegisterYourService from "./pages/RegisterYourService/RegisterYourService";
-import UserDetails from "./pages/UserDetails";
+import UserPersonalAccount from "./pages/UserPersonalAccount";
+import UserById from "./pages/UserById";
 
 const Home = () => <Homepage />;
 
@@ -39,7 +40,8 @@ function App() {
         <Route path="/contact/:iduser" component={Contact} />
         <Route path="/registerpet" component={RegisterYourPet} />
         <Route path="/registerservice" component={RegisterYourService} />
-        <Route path="/user" component={UserDetails} />
+        <Route exact path="/user" component={UserPersonalAccount} />
+        <Route path="/user/:userId" component={UserById} />
       </Switch>
     </div>
   );
