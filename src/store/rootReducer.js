@@ -5,6 +5,7 @@ import profiles from "./profiles/reducer";
 import typeOfService from "./typeOfServices/reducer";
 import reviews from "./reviews/reducer";
 import favorites from "./favorites/reducer";
+import userById from "./userById/reducer";
 
 export default combineReducers({
   appState,
@@ -13,4 +14,5 @@ export default combineReducers({
   typeOfService,
   reviews,
   favorites,
+  userById,
 });
