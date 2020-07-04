@@ -8,6 +8,8 @@ import Geocode from "react-geocode";
 import { apiKeyGoogle } from "../../config/constants";
 import ProfilesByServiceId from "../ProfilesByServiceId/ProfilesByServiceId";
 import { fetchProfilesByDistance } from "../../store/profiles/actions";
+import { showMessageWithTimeout } from "../../store/appState/actions";
+import Loading from "../../components/Loading";
 
 export default function Homepage() {
   const [serviceChosen, setServiceChosen] = useState(1);
@@ -15,6 +17,7 @@ export default function Homepage() {
   const [toggle, setToggle] = useState(false);
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const [km, setKm] = useState(2);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,18 +32,31 @@ export default function Homepage() {
 
   // Get latidude & longitude from address.
   function getCoordinates() {
-    Geocode.fromAddress(address).then(
-      (response) => {
-        const { lat, lng } = response.results[0].geometry.location;
-        setLatitude(lat);
-        setLongitude(lng);
-        setToggle(true);
-        dispatch(fetchProfilesByDistance(serviceChosen, lat, lng));
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    if (!address) {
+      dispatch(
+        showMessageWithTimeout("danger", true, "Please enter your address")
+      );
+    } else {
+      Geocode.fromAddress(address).then(
+        (response) => {
+          const { lat, lng } = response.results[0].geometry.location;
+          setLatitude(lat);
+          setLongitude(lng);
+          setToggle(true);
+          dispatch(fetchProfilesByDistance(serviceChosen, lat, lng, km));
+        },
+        (error) => {
+          console.error(error);
+          dispatch(
+            showMessageWithTimeout(
+              "danger",
+              true,
+              "Sorry, we could not find the address"
+            )
+          );
+        }
+      );
+    }
   }
 
   return (
@@ -88,6 +104,22 @@ export default function Homepage() {
                 </Form.Group>
               </Col>
               <Col>
+                <Form.Group controlId="filter-radio">
+                  <Form.Label className="label-text">Km</Form.Label>
+
+                  <Form.Control
+                    value={km}
+                    onChange={(e) => setKm(e.target.value)}
+                    as="select"
+                  >
+                    <option value={2}>2</option>
+                    <option value={4}>4</option>
+                    <option value={10}>10</option>
+                    <option value={1000}>All</option>
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+              <Col>
                 <Button
                   onClick={getCoordinates}
                   variant="danger"
@@ -102,7 +134,9 @@ export default function Homepage() {
       </div>
       {toggle ? (
         <ProfilesByServiceId latitude={latitude} longitude={longitude} />
-      ) : null}
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 }

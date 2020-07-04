@@ -8,28 +8,47 @@ import calculateDistance from "../../calculateDistance";
 import { fetchServices } from "../../store/typeOfServices/actions";
 import StarRatings from "react-star-ratings";
 import "./ProfilesByServiceId.css";
+import { fetchReviews } from "../../store/reviews/actions";
+import { reviewsSelector } from "../../store/reviews/selector";
 
 function ProfilesByServiceId({ google, latitude, longitude }) {
   const profiles = useSelector(profilesSelector);
   const [selectedProfile, setSelectedProfile] = useState(null);
-
   const dispatch = useDispatch();
+  const reviews = useSelector(reviewsSelector);
+  console.log("selected", selectedProfile);
+  useEffect(() => {
+    dispatch(fetchServices);
+    dispatch(fetchReviews);
+  }, [dispatch, selectedProfile]);
 
   const markerClickHandler = (event, profile) => {
     // Remember which place was clicked
     setSelectedProfile(profile);
   };
-  useEffect(() => {
-    dispatch(fetchServices);
-  }, [dispatch, selectedProfile]);
 
+  let average; //display average of rating
+  let reviewsToDisplay; //display reviews
+
+  if (selectedProfile) {
+    // filter the reviews to display
+    reviewsToDisplay = reviews.filter((review) => {
+      return selectedProfile.id === review.userServiceId;
+    });
+    if (reviewsToDisplay.length) {
+      average = parseInt(
+        reviewsToDisplay.reduce((total, next) => total + next.rating, 0) /
+          reviewsToDisplay.length
+      );
+    }
+  }
   return (
     <div>
       <Container>
         <Map
           google={google}
-          style={{ height: "70vh", width: "80%", position: "relative" }}
-          zoom={15}
+          style={{ height: "500px", width: "1000px", position: "relative" }}
+          zoom={13}
           initialCenter={{
             lat: latitude,
             lng: longitude,
@@ -113,9 +132,8 @@ function ProfilesByServiceId({ google, latitude, longitude }) {
                   <Row>
                     <Col>
                       <StarRatings
-                        rating={selectedProfile.user.rating}
+                        rating={average ? average : 0}
                         starRatedColor="#ebcc34"
-                        starEmptyColor="grey"
                         starDimension="20px"
                         starSpacing="5px"
                       />
@@ -134,7 +152,7 @@ function ProfilesByServiceId({ google, latitude, longitude }) {
                   </Row>
                   <Row>
                     <Col>
-                      <a href={`/userservice/${selectedProfile.user.id}`}>
+                      <a href={`/userservice/${selectedProfile.id}`}>
                         <Button variant="danger">See details</Button>
                       </a>
                     </Col>
