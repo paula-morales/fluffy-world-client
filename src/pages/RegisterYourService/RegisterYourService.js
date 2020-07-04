@@ -6,6 +6,8 @@ import { useHistory } from "react-router-dom";
 import { selectUser } from "../../store/user/selectors";
 import { registerService } from "../../store/profiles/actions";
 import { typeOfServicesSelector } from "../../store/typeOfServices/selectors";
+import { fetchProfiles } from "../../store/profiles/actions";
+import { profilesSelector } from "../../store/profiles/selectors";
 
 export default function RegisterYourService() {
   const [title, setTitle] = useState("");
@@ -23,13 +25,38 @@ export default function RegisterYourService() {
     if (!user.isCandidate) {
       history.push("/");
     }
-  }, [user, history]);
+    dispatch(fetchProfiles);
+  }, [user, history, dispatch]);
+
+  const profiles = useSelector(profilesSelector);
+  let existingProfiles;
+  if (profiles && user) {
+    existingProfiles = profiles.filter((profile) => profile.userId === user.id);
+  }
+
+  let existingServices = [];
+  if (existingProfiles) {
+    existingProfiles.forEach((profile) => {
+      existingServices.push(profile.serviceId);
+    });
+  }
 
   //you cannot choose the service called "pet friends", that is only to register pets
   for (var j = servicesList.length - 1; j >= 0; j--) {
     if (servicesList[j].name === "pet friends") {
       servicesList.splice(j, 1);
     }
+  }
+
+  //if you already register a service (i.e. dog walking), you cannot choose it again
+  if (existingServices) {
+    existingServices.forEach((service) => {
+      for (var k = servicesList.length - 1; k >= 0; k--) {
+        if (servicesList[k].id === service) {
+          servicesList.splice(k, 1);
+        }
+      }
+    });
   }
 
   function handlerSubmit() {

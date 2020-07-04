@@ -5,6 +5,8 @@ import { showMessageWithTimeout } from "../../store/appState/actions";
 import { useHistory } from "react-router-dom";
 import { selectUser } from "../../store/user/selectors";
 import { registerPet } from "../../store/profiles/actions";
+import { fetchProfiles } from "../../store/profiles/actions";
+import { profilesSelector } from "../../store/profiles/selectors";
 
 export default function RegisterYourPet() {
   const [name, setName] = useState("");
@@ -17,7 +19,27 @@ export default function RegisterYourPet() {
     if (!user.isOwner) {
       history.push("/");
     }
-  }, [user, history]);
+    dispatch(fetchProfiles);
+  }, [user, history, dispatch]);
+
+  const profiles = useSelector(profilesSelector);
+  let existingProfiles;
+  if (profiles && user) {
+    existingProfiles = profiles.filter((profile) => profile.userId === user.id);
+  }
+
+  let pet;
+  if (existingProfiles) {
+    pet = existingProfiles.find((profile) => {
+      return (profile.serviceId = 5);
+    });
+  }
+  if (pet) {
+    history.push("/");
+    dispatch(
+      showMessageWithTimeout("danger", true, "You already registered your pet")
+    );
+  }
   function handlerSubmit() {
     if (!picture || !name || !description) {
       dispatch(
