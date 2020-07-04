@@ -16,7 +16,7 @@ import { reviewsSelector } from "../../store/reviews/selector";
 import { fetchReviews, addReview } from "../../store/reviews/actions";
 import { selectUser } from "../../store/user/selectors";
 import "../RegisterYourService/RegisterYourService.css";
-import { fetchFavorites } from "../../store/favorites/actions";
+import { fetchFavorites, toggleFavorite } from "../../store/favorites/actions";
 import { selectFavorites } from "../../store/favorites/selector";
 
 export default function UserServices() {
@@ -33,7 +33,7 @@ export default function UserServices() {
     if (token) {
       dispatch(fetchFavorites);
     }
-  }, [dispatch]);
+  }, [dispatch, token]);
 
   const profile = useSelector(profilesByIdSelector(parseInt(idUserService)));
   const typeOfServices = useSelector(typeOfServicesSelector);
@@ -113,8 +113,11 @@ export default function UserServices() {
     isFavorite = favorites.find((fav) => {
       return fav.userServiceId === parseInt(idUserService);
     });
-    console.log(isFavorite);
   }
+
+  const toggle = () => {
+    dispatch(toggleFavorite(parseInt(idUserService), isFavorite));
+  };
 
   return (
     <Container>
@@ -139,9 +142,17 @@ export default function UserServices() {
                     {profile.title}
                     {token ? (
                       isFavorite ? (
-                        <span>❤️</span>
+                        <span role="img" aria-label="heart" onClick={toggle}>
+                          ❤️
+                        </span>
                       ) : (
-                        <span>♡</span>
+                        <span
+                          role="img"
+                          aria-label="empty-heart"
+                          onClick={toggle}
+                        >
+                          ♡
+                        </span>
                       )
                     ) : null}
                   </Row>
