@@ -9,16 +9,28 @@ export function profilesFetched(payload) {
   };
 }
 
-export function fetchProfilesByDistance(serviceId, lat, lng) {
+export function fetchProfilesByDistance(serviceId, lat, lng, km) {
   return async function thunk(dispatch, getState) {
     try {
       const res = await axios.get(
-        `${apiUrl}/userservice/${serviceId}/${lat}/${lng}`
+        `${apiUrl}/userservice/${serviceId}/${lat}/${lng}/${km}`
       );
       dispatch(profilesFetched(res.data));
     } catch (e) {
-      console.log("error", e.message);
-      dispatch(showMessageWithTimeout("danger", true, "Something went wrong"));
+      console.log("error", e);
+      if (e.message === "Request failed with status code 404") {
+        dispatch(
+          showMessageWithTimeout(
+            "warning",
+            true,
+            "There are not candidates in this area"
+          )
+        );
+      } else {
+        dispatch(
+          showMessageWithTimeout("danger", true, "Something went wrong")
+        );
+      }
     }
   };
 }
