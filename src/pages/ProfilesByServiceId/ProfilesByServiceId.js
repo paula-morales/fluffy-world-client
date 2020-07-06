@@ -15,7 +15,7 @@ function ProfilesByServiceId({ google, latitude, longitude }) {
   const [selectedProfile, setSelectedProfile] = useState(null);
   const dispatch = useDispatch();
   const reviews = useSelector(reviewsSelector);
-  console.log("selected", selectedProfile);
+
   useEffect(() => {
     dispatch(fetchServices);
     dispatch(fetchReviews);
