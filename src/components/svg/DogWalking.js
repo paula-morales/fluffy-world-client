@@ -56,8 +56,8 @@ export default function DogWalking() {
         transform="translate(-112.81 -99.39)"
         fill="none"
         stroke="#3f3d56"
-        stroke-miterlimit="10"
-        stroke-width="4"
+        strokeMiterlimit="10"
+        strokeWidth="4"
       />
       <path
         d="M1040.7,618.73a14,14,0,0,0-7-11.5l-3.14,6.22.09-7.53a13.86,13.86,0,0,0-4.62-.55,14,14,0,1,0,14.68,13.36Z"
@@ -119,7 +119,7 @@ export default function DogWalking() {
         transform="translate(-112.81 -99.39)"
         fill="none"
         stroke="#3f3d56"
-        stroke-miterlimit="10"
+        strokeMiterlimit="10"
       />
       <path
         d="M614.47,727.6s-2,17,7,18a115.81,115.81,0,0,0,13.2.43,14.41,14.41,0,0,0,12.07-22l-.27-.42C637.47,709.6,614.47,727.6,614.47,727.6Z"
@@ -213,7 +213,7 @@ export default function DogWalking() {
         transform="translate(-112.81 -99.39)"
         fill="none"
         stroke="#3f3d56"
-        stroke-miterlimit="10"
+        strokeMiterlimit="10"
       />
       <path
         d="M703.79,619.35c0,16.7-8.55,17.68-22.82,30.23s-22.82-13.53-22.82-30.23,10.22-30.24,22.82-30.24S703.79,602.65,703.79,619.35Z"
