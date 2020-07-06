@@ -13,10 +13,10 @@ export default function Navigation() {
     <div className="navbar-homepage">
       <nav className="navbar">
         <div className="brand-title">FLUFFY WORLD</div>
-        {/* <a href="/" class="toggle-button">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
+        {/* <a href="/" className="toggle-button">
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
         </a> */}
 
         <div className="navbar-links">

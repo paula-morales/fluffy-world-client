@@ -98,22 +98,25 @@
 
 @media (max-width: 800px) {
   .navbar {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
   }
-
-  .toggle-button {
-    display: flex;
-  }
-
-  .navbar-links {
+  .brand-title {
     display: none;
+  }
+  .navbar-links {
+    display: flex;
     width: 100%;
+    justify-content: center;
+    margin: 0;
   }
 
   .navbar-links ul {
     width: 100%;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: stretch;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: stretch;
   }
 
   .navbar-links ul li {
@@ -121,7 +124,7 @@
   }
 
   .navbar-links ul li a {
-    padding: 0.5rem 1rem;
+    padding: 0;
   }
 
   .navbar-links.active {
