@@ -2,7 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectToken, selectUser } from "../../store/user/selectors";
 import { logOut } from "../../store/user/actions";
-import { Button } from "react-bootstrap";
 import "./navigation.css";
 
 export default function Navigation() {
@@ -53,7 +52,12 @@ export default function Navigation() {
                 <li>
                   <a href="/user">Your account</a>
                 </li>
-                <Button onClick={() => dispatch(logOut())}>Log out</Button>
+                <button
+                  className="button-logout"
+                  onClick={() => dispatch(logOut())}
+                >
+                  Log out
+                </button>
               </div>
             )}
           </ul>

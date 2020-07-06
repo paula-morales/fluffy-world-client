@@ -11,6 +11,7 @@ import { fetchProfilesByDistance } from "../../store/profiles/actions";
 import { showMessageWithTimeout } from "../../store/appState/actions";
 import Loading from "../../components/Loading";
 import DogWalking from "../../components/svg/DogWalking";
+import { selectUser } from "../../store/user/selectors";
 
 export default function Homepage() {
   const [serviceChosen, setServiceChosen] = useState(1);
@@ -20,6 +21,7 @@ export default function Homepage() {
   const [longitude, setLongitude] = useState("");
   const [km, setKm] = useState(2);
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     dispatch(fetchServices);
@@ -75,12 +77,15 @@ export default function Homepage() {
         <div className="curved-div down">
           <div className="text-welcome">
             <div className="text-welcome-container">
-              <h1>Welcolme</h1>
-              <h3>Sign up and find pet friends around you!</h3>
+              <h1>
+                Welcolme{" "}
+                {user.firstName ? <span>back, {user.firstName}</span> : null}
+              </h1>
+              <h2>Sign up and find pet friends around you!</h2>
 
               <a href="/signup">
                 {" "}
-                <button className="button btn3">Sign up</button>
+                <button className="button sign-up">Sign up</button>
               </a>
             </div>
           </div>
@@ -92,14 +97,6 @@ export default function Homepage() {
               alt="cat-dog"
             />
           </div>
-
-          {/* <svg viewBox="0 0 1440 319">
-            <path
-              fill="#ffffff"
-              fill-opacity="1"
-              d="M0,224L60,229.3C120,235,240,245,360,234.7C480,224,600,192,720,192C840,192,960,224,1080,218.7C1200,213,1320,171,1380,149.3L1440,128L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
-            ></path>
-          </svg> */}
         </div>
       </div>
 
