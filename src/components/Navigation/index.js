@@ -2,7 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectToken, selectUser } from "../../store/user/selectors";
 import { logOut } from "../../store/user/actions";
-import { Button } from "react-bootstrap";
 import "./navigation.css";
 
 export default function Navigation() {
@@ -12,22 +11,20 @@ export default function Navigation() {
 
   return (
     <div className="navbar-homepage">
-      <nav class="navbar">
-        <div class="brand-title">FLUFFY WORLD</div>
+      <nav className="navbar">
+        <div className="brand-title">FLUFFY WORLD</div>
         {/* <a href="/" class="toggle-button">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
         </a> */}
 
-        <div class="navbar-links">
+        <div className="navbar-links">
           <ul>
             <li>
               <a href="/">Home</a>
             </li>
-            <li>
-              <a href="/about">About</a>
-            </li>
+
             {!token ? (
               <li>
                 <a href="/signup">Sign up</a>
@@ -53,7 +50,12 @@ export default function Navigation() {
                 <li>
                   <a href="/user">Your account</a>
                 </li>
-                <Button onClick={() => dispatch(logOut())}>Log out</Button>
+                <button
+                  className="button-logout"
+                  onClick={() => dispatch(logOut())}
+                >
+                  Log out
+                </button>
               </div>
             )}
           </ul>

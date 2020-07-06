@@ -82,7 +82,6 @@ export const login = (email, password) => {
       });
 
       dispatch(loginSuccess(response.data));
-      dispatch(showMessageWithTimeout("success", false, "welcome back!", 1500));
       dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {
@@ -90,7 +89,8 @@ export const login = (email, password) => {
         dispatch(setMessage("danger", true, error.response.data.message));
       } else {
         console.log(error.message);
-        dispatch(setMessage("danger", true, error.message));
+
+        dispatch(showMessageWithTimeout("danger", true, error.message));
       }
       dispatch(appDoneLoading());
     }

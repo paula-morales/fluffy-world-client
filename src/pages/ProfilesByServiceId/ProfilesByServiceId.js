@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { profilesSelector } from "../../store/profiles/selectors";
-import { Container, Button, Row, Col } from "react-bootstrap";
 import { Map, Marker, GoogleApiWrapper, InfoWindow } from "google-maps-react";
 import { apiKeyGoogle } from "../../config/constants";
 import calculateDistance from "../../calculateDistance";
@@ -48,7 +47,6 @@ function ProfilesByServiceId({ google, latitude, longitude }) {
         <Map
           className="google-map"
           google={google}
-          // style={{ height: "50vh", width: "50vw" }}
           zoom={13}
           initialCenter={{
             lat: latitude,
@@ -99,66 +97,45 @@ function ProfilesByServiceId({ google, latitude, longitude }) {
               visible={true}
             >
               <div className="storemapper-iw-container">
-                <Container>
-                  <Row>
-                    <Col>
-                      <image
-                        style={{ width: "160px", height: "100px" }}
-                        src={selectedProfile.user.profilePicture}
-                        alt={selectedProfile.title}
-                      />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      {" "}
-                      <h5>{selectedProfile.title} </h5>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <h6>
-                        {" "}
-                        {calculateDistance(
-                          latitude,
-                          longitude,
-                          selectedProfile.user.latitude,
-                          selectedProfile.user.longitude
-                        ).toFixed(2)}{" "}
-                        km far from you
-                      </h6>
-                    </Col>
-                  </Row>
-
-                  <Row>
-                    <Col>
-                      <StarRatings
-                        rating={average ? average : 0}
-                        starRatedColor="#ebcc34"
-                        starDimension="20px"
-                        starSpacing="5px"
-                      />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <h6>Price: {selectedProfile.price}€/hour</h6>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      {" "}
-                      <h6>{selectedProfile.description}</h6>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <a href={`/userservice/${selectedProfile.id}`}>
-                        <Button variant="danger">See details</Button>
-                      </a>
-                    </Col>
-                  </Row>
-                </Container>
+                <div className="container-info">
+                  <div className="info-item 1">
+                    <img
+                      src={selectedProfile.user.profilePicture}
+                      alt={selectedProfile.title}
+                    />
+                  </div>
+                  <div className="info-item 2">
+                    <h3>{selectedProfile.title}</h3>
+                  </div>
+                  <div className="info-item 3">
+                    <i>
+                      {calculateDistance(
+                        latitude,
+                        longitude,
+                        selectedProfile.user.latitude,
+                        selectedProfile.user.longitude
+                      ).toFixed(2)}{" "}
+                      km far from you
+                    </i>
+                  </div>
+                  <div className="info-item 4">
+                    {" "}
+                    <StarRatings
+                      rating={average ? average : 0}
+                      starRatedColor="#ebcc34"
+                      starDimension="20px"
+                      starSpacing="5px"
+                    />
+                  </div>
+                  <div className="info-item 5">
+                    <strong>{selectedProfile.price}€/hour</strong>
+                  </div>
+                  <div className="info-item 6">
+                    <a href={`/userservice/${selectedProfile.id}`}>
+                      <button className="btn-see-details">See details</button>
+                    </a>
+                  </div>
+                </div>
               </div>
             </InfoWindow>
           )}
