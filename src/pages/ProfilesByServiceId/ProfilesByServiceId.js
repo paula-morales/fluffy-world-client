@@ -43,11 +43,12 @@ function ProfilesByServiceId({ google, latitude, longitude }) {
     }
   }
   return (
-    <div>
-      <Container>
+    <div className="map-container-1">
+      <div className="map-container">
         <Map
+          className="google-map"
           google={google}
-          style={{ height: "500px", width: "1000px", position: "relative" }}
+          // style={{ height: "50vh", width: "50vw" }}
           zoom={13}
           initialCenter={{
             lat: latitude,
@@ -162,7 +163,7 @@ function ProfilesByServiceId({ google, latitude, longitude }) {
             </InfoWindow>
           )}
         </Map>{" "}
-      </Container>
+      </div>
     </div>
   );
 }
