@@ -10,6 +10,7 @@ import ProfilesByServiceId from "../ProfilesByServiceId/ProfilesByServiceId";
 import { fetchProfilesByDistance } from "../../store/profiles/actions";
 import { showMessageWithTimeout } from "../../store/appState/actions";
 import Loading from "../../components/Loading";
+import DogWalking from "../../components/svg/DogWalking";
 
 export default function Homepage() {
   const [serviceChosen, setServiceChosen] = useState(1);
@@ -61,11 +62,53 @@ export default function Homepage() {
 
   return (
     <div>
-      <div className="header">
+      <div className="container-homepage homepage-1">
+        <div className="curved-div upper">
+          <svg viewBox="0 0 1440 319">
+            <path
+              fill="#fff"
+              fill-opacity="1"
+              d="M0,32L48,48C96,64,192,96,288,96C384,96,480,64,576,48C672,32,768,32,864,42.7C960,53,1056,75,1152,90.7C1248,107,1344,117,1392,122.7L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+            ></path>
+          </svg>
+        </div>
+        <div className="curved-div down">
+          <div className="text-welcome">
+            <div className="text-welcome-container">
+              <h1>Welcolme</h1>
+              <h3>Sign up and find pet friends around you!</h3>
+
+              <a href="/signup">
+                {" "}
+                <button className="button btn3">Sign up</button>
+              </a>
+            </div>
+          </div>
+
+          <div className="image-wrapper">
+            <img
+              className="image-dog-cat"
+              src={require("../../images/background.png")}
+              alt="cat-dog"
+            />
+          </div>
+
+          {/* <svg viewBox="0 0 1440 319">
+            <path
+              fill="#ffffff"
+              fill-opacity="1"
+              d="M0,224L60,229.3C120,235,240,245,360,234.7C480,224,600,192,720,192C840,192,960,224,1080,218.7C1200,213,1320,171,1380,149.3L1440,128L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+            ></path>
+          </svg> */}
+        </div>
+      </div>
+
+      <div className="container-homepage homepage-2">
+        <div className="dog-walking-container">
+          <DogWalking />
+        </div>
+
         <Container>
-          <Row>
-            <Col className="text-pets">Pets deserve the best care</Col>
-          </Row>
           <Form>
             {" "}
             <Row className="search-box">
@@ -120,23 +163,19 @@ export default function Homepage() {
                 </Form.Group>
               </Col>
               <Col>
-                <Button
-                  onClick={getCoordinates}
-                  variant="danger"
-                  className="button-search"
-                >
+                <button onClick={getCoordinates} className="button-search">
                   Search
-                </Button>
+                </button>
               </Col>{" "}
             </Row>
           </Form>
         </Container>
+        {toggle ? (
+          <ProfilesByServiceId latitude={latitude} longitude={longitude} />
+        ) : (
+          <Loading />
+        )}
       </div>
-      {toggle ? (
-        <ProfilesByServiceId latitude={latitude} longitude={longitude} />
-      ) : (
-        <Loading />
-      )}
     </div>
   );
 }
