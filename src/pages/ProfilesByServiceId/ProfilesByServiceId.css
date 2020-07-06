@@ -37,3 +37,39 @@
   font-size: 1rem;
   font-weight: 400;
 }
+
+@media (max-width: 1225px) {
+  .info-item {
+    font-size: 0.8rem;
+    font-weight: 400;
+    padding: 0;
+  }
+  .container-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: stretch;
+    text-align: center;
+  }
+  .h1 {
+    font-size: 50%;
+  }
+  .container-info img {
+    display: none;
+  }
+  .btn-see-details {
+    margin-top: 5px;
+    background: #676c7f;
+    display: inline-block;
+    text-align: center;
+    vertical-align: center;
+    user-select: none;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    border: 1px solid transparent;
+    color: #fff;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+}
