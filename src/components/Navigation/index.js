@@ -11,22 +11,20 @@ export default function Navigation() {
 
   return (
     <div className="navbar-homepage">
-      <nav class="navbar">
-        <div class="brand-title">FLUFFY WORLD</div>
+      <nav className="navbar">
+        <div className="brand-title">FLUFFY WORLD</div>
         {/* <a href="/" class="toggle-button">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
         </a> */}
 
-        <div class="navbar-links">
+        <div className="navbar-links">
           <ul>
             <li>
               <a href="/">Home</a>
             </li>
-            <li>
-              <a href="/about">About</a>
-            </li>
+
             {!token ? (
               <li>
                 <a href="/signup">Sign up</a>
