@@ -89,7 +89,8 @@ export const login = (email, password) => {
         dispatch(setMessage("danger", true, error.response.data.message));
       } else {
         console.log(error.message);
-        dispatch(setMessage("danger", true, error.message));
+
+        dispatch(showMessageWithTimeout("danger", true, error.message));
       }
       dispatch(appDoneLoading());
     }
