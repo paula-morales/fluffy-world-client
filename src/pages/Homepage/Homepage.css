@@ -143,3 +143,48 @@ a {
 .homepage-2 {
   background-color: #e1d5bf;
 }
+
+@media (max-width: 1225px) {
+  .image-wrapper {
+    display: none;
+  }
+  .search-box {
+    margin: 0;
+    flex-direction: column;
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  .button-search {
+    position: relative;
+    bottom: 0;
+  }
+  .dog-walking-container {
+    display: none;
+  }
+  .container {
+    margin-top: 25px;
+  }
+  .map-container-1 {
+    margin: 0;
+  }
+  .map-container {
+    width: 90%;
+    height: 50vh;
+  }
+}
+
+@media (max-width: 800px) {
+  .search-box {
+    margin: 0;
+    flex-direction: column;
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  .text-welcome-container {
+    margin-left: 25px;
+  }
+  .map-container {
+    width: 90%;
+    height: 50vh;
+  }
+}
