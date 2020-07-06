@@ -163,9 +163,13 @@ export default function Homepage() {
                 </Form.Group>
               </Col>
               <Col>
-                <button onClick={getCoordinates} className="button-search">
+                <Button
+                  variant="dark"
+                  onClick={getCoordinates}
+                  className="button-search"
+                >
                   Search
-                </button>
+                </Button>
               </Col>{" "}
             </Row>
           </Form>
