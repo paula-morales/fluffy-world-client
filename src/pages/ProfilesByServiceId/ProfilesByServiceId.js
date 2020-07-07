@@ -100,7 +100,7 @@ function ProfilesByServiceId({ google, latitude, longitude }) {
                 <div className="container-info">
                   <div className="info-item 1">
                     <img
-                      src={selectedProfile.user.profilePicture}
+                      src={selectedProfile.picture}
                       alt={selectedProfile.title}
                     />
                   </div>

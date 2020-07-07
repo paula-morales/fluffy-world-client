@@ -62,7 +62,7 @@ export default function Contact() {
       );
     } else {
       dispatch(
-        sendEmail(profile.user.id, date, hour, message, profile.serviceId)
+        sendEmail(profile.userId, date, hour, message, profile.serviceId)
       );
       setDate("");
       setHour("");

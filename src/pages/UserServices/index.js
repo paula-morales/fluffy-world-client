@@ -191,7 +191,7 @@ export default function UserServices() {
               </Row>
               <Row style={{ padding: "2rem" }}>{profile.description}</Row>
               <Row>
-                <NavLink to={`/contact/${profile.user.id}`}>
+                <NavLink to={`/contact/${profile.serviceId}`}>
                   <Button>Contact {profile.user.firstName}</Button>
                 </NavLink>
               </Row>
