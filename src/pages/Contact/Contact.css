@@ -1,4 +1,17 @@
-.background-dog {
-  background-image: url("../../images/dog.png");
-  background-position: top;
+.contact {
+  background: #bfe2ca;
+  padding: 3rem 2rem;
+}
+
+.contact-image {
+  width: 500px;
+  height: 300px;
+  position: relative;
+  top: 250px;
+}
+textarea {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
 }
