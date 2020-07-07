@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
 import { signUp } from "../../store/user/actions";
 import { selectUser } from "../../store/user/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
-import { Col, Row } from "react-bootstrap";
 import Geocode from "react-geocode";
 import { apiKeyGoogle } from "../../config/constants";
 import { showMessageWithTimeout } from "../../store/appState/actions";
@@ -14,6 +10,7 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { languageList } from "../../config/languagesList";
 import "./Signup.css";
+import SignupSVG from "../../components/svg/SignupSVG";
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -124,67 +121,65 @@ export default function SignUp() {
   }
 
   return (
-    <Container>
-      <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-4">
-        <h4 className="mt-2 mb-4">
+    <div className="form-container">
+      <div className="form-container-2">
+        {" "}
+        <div className="sign-up">
           <strong>Sign up</strong>
-        </h4>
-        <Form.Row>
-          <Form.Group as={Col} controlId="formBasicFirstName">
-            <Form.Label>First name</Form.Label>
-            <Form.Control
+        </div>
+        <div className="items-container">
+          <div className="inputs-container first-name">
+            <label>First Name</label>
+            <input
               value={firstName}
               onChange={(event) => setFirstName(event.target.value)}
-              type="text"
               placeholder="Enter first name"
-              required
+              className="form-item"
             />
-          </Form.Group>
-          <Form.Group as={Col} controlId="formBasicLastName">
-            <Form.Label>Last name</Form.Label>
-            <Form.Control
+          </div>
+          <div className="inputs-container last-name">
+            <label>Last Name</label>
+            <input
               value={lastName}
               onChange={(event) => setLastName(event.target.value)}
-              type="text"
               placeholder="Enter last name"
-              required
+              className="form-item"
             />
-          </Form.Group>
-        </Form.Row>
-        <Form.Row>
-          <Form.Group as={Col} controlId="formBasicPhone">
-            <Form.Label>Phone number</Form.Label>
-            <Form.Control
+          </div>
+        </div>
+        <div className="items-container">
+          <div className="inputs-container phone-number">
+            <label>Phone number</label>
+            <input
+              type="number"
               value={phoneNumber}
               onChange={(event) => setPhoneNumber(event.target.value)}
-              type="number"
               placeholder="Enter phone number"
-              required
+              className="form-item"
             />
-          </Form.Group>
-          <Form.Group as={Col} controlId="formBasicPicture">
-            <Form.Label>Profile picture</Form.Label>
-            <Form.Control
+          </div>
+          <div className="inputs-container profile-picture">
+            <label>Profile picture url</label>
+            <input
               value={profilePicture}
               onChange={(event) => setProfilePicture(event.target.value)}
-              type="text"
               placeholder="Enter picture url"
-              required
+              className="form-item"
             />
-          </Form.Group>
-        </Form.Row>
-        <Form.Group controlId="formBasicAddress">
-          <Form.Label>Address</Form.Label>
-          <Form.Control
-            value={address}
-            onChange={(event) => setAddress(event.target.value)}
-            type="text"
-            placeholder="Enter address"
-            required
-          />
-        </Form.Group>
-
-        <Form.Group controlId="array-languages" className="container-tags">
+          </div>
+        </div>
+        <div className="items-container">
+          <div className="inputs-container address">
+            <label>Address</label>
+            <input
+              value={address}
+              onChange={(event) => setAddress(event.target.value)}
+              placeholder="Enter address"
+              className="form-item"
+            />
+          </div>
+        </div>
+        <div className="items-container">
           <Autocomplete
             id="inputLanguage"
             options={languageList}
@@ -194,10 +189,14 @@ export default function SignUp() {
               <TextField {...params} label="Language" variant="outlined" />
             )}
           />
-          <button type="button" id="add" onClick={addLanguage}>
+          <button
+            className="button-add"
+            type="button"
+            id="add"
+            onClick={addLanguage}
+          >
             Add{" "}
           </button>{" "}
-          {/* <div id="values"></div> */}
           {language
             ? language.length
               ? language.map((lang) => (
@@ -207,67 +206,73 @@ export default function SignUp() {
                 ))
               : null
             : null}
-        </Form.Group>
-
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            type="email"
-            placeholder="Enter email"
-            required
-          />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
-        </Form.Group>
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            type="password"
-            placeholder="Password"
-            required
-          />
-        </Form.Group>
-        <fieldset>
-          <Form.Group as={Row}>
-            <Col sm={10}>
-              {radios.map((radio, idx) => (
-                <Form.Check
-                  key={idx}
+        </div>
+        <div className="items-container">
+          <div className="inputs-container email">
+            <label>Email</label>
+            <input
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="Enter email"
+              className="form-item"
+              type="email"
+            />
+          </div>
+        </div>
+        <div className="items-container">
+          <div className="inputs-container password">
+            <label>Password</label>
+            <input
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder="Enter password"
+              className="form-item"
+              type="password"
+            />
+          </div>
+        </div>
+        <div className="items-container">
+          <fieldset>
+            {radios.map((radio, idx) => (
+              <div key={idx}>
+                <input
                   type="radio"
-                  variant="primary"
                   value={radio.value}
                   checked={radioValue === radio.value}
                   onChange={(e) => {
                     setRadioValue(e.currentTarget.value);
                   }}
-                  label={radio.name}
                   name="formHorizontalRadios"
                   id={`formHorizontalRadios${radio.value}`}
                 />
-              ))}
-            </Col>
-          </Form.Group>
-        </fieldset>
-
-        <Form.Group controlId="formBasicCheckbox"></Form.Group>
-        <Form.Group className="mt-0">
-          <Button variant="primary" type="submit" onClick={submitForm}>
+                <label
+                  className="label-radio"
+                  htmlFor={`formHorizontalRadios${radio.value}`}
+                >
+                  {radio.name}
+                </label>
+              </div>
+            ))}
+          </fieldset>
+        </div>
+        <div className="button-container">
+          <button className="button-signup" onClick={submitForm}>
             Sign up
-          </Button>
-        </Form.Group>
-        <label>Already have an account?</label>
-        <Link
-          to="/login"
-          style={{ paddingBottom: "5rem", marginLeft: "0.5rem" }}
-        >
-          Log in
-        </Link>
-      </Form>
-    </Container>
+          </button>
+          <br />
+          <label>Already have an account?</label>
+          <Link
+            to="/login"
+            style={{ paddingBottom: "5rem", marginLeft: "0.5rem" }}
+          >
+            Log in
+          </Link>
+        </div>
+      </div>
+
+      <div className="sign-up-svg">
+        <SignupSVG />
+      </div>
+    </div>
   );
 }
