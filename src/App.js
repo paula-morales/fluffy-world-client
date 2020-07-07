@@ -37,7 +37,7 @@ function App() {
         <Route path="/signup" component={SignUp} />
         <Route path="/login" component={Login} />
         <Route path="/userservice/:idUserService" component={UserServices} />
-        <Route path="/contact/:iduser" component={Contact} />
+        <Route path="/contact/:idprofile" component={Contact} />
         <Route path="/registerpet" component={RegisterYourPet} />
         <Route path="/registerservice" component={RegisterYourService} />
         <Route exact path="/user" component={UserPersonalAccount} />

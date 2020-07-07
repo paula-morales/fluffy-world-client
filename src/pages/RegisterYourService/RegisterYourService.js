@@ -8,6 +8,7 @@ import { registerService } from "../../store/profiles/actions";
 import { typeOfServicesSelector } from "../../store/typeOfServices/selectors";
 import { fetchProfiles } from "../../store/profiles/actions";
 import { profilesSelector } from "../../store/profiles/selectors";
+import { fetchServices } from "../../store/typeOfServices/actions";
 
 export default function RegisterYourService() {
   const [title, setTitle] = useState("");
@@ -24,10 +25,11 @@ export default function RegisterYourService() {
 
   useEffect(() => {
     //you only can access if you are a candidate
-    if (!user.isCandidate) {
+    if (user.isOwner || !user.token) {
       history.push("/");
     }
     dispatch(fetchProfiles);
+    dispatch(fetchServices);
   }, [user, history, dispatch]);
 
   const profiles = useSelector(profilesSelector);

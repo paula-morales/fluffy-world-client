@@ -4,31 +4,36 @@ import StarRatings from "react-star-ratings";
 
 export default function Review({ image, name, dateCreated, rating, comment }) {
   return (
-    <Container>
+    <Container className="mt-4">
       <Row className="row justify-content-md-center">
         <Col className="col-1">
           <Image
-            style={{ width: "70px", height: "70px", borderRadius: "100%" }}
+            style={{
+              width: "50px",
+              height: "50px",
+              borderRadius: "100%",
+            }}
             src={image}
             alt={image}
           />
         </Col>
         <Col>
-          <Row>
-            <h4>{name}</h4>
+          {" "}
+          <Row className="mb-2">
+            <h5>{name}</h5>
           </Row>
           <Row style={{ lineHeight: 0 }}>
             <p>{dateCreated}</p>
           </Row>
-          <StarRatings
-            rating={rating}
-            starRatedColor="#ebcc34"
-            starEmptyColor="grey"
-            starDimension="20px"
-            starSpacing="5px"
-          />
         </Col>
-      </Row>
+      </Row>{" "}
+      <StarRatings
+        rating={rating}
+        starRatedColor="#403d50"
+        starEmptyColor="grey"
+        starDimension="20px"
+        starSpacing="5px"
+      />
       <Row>
         <p>{comment}</p>
       </Row>

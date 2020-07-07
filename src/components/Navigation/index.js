@@ -13,11 +13,6 @@ export default function Navigation() {
     <div className="navbar-homepage">
       <nav className="navbar">
         <div className="brand-title">FLUFFY WORLD</div>
-        {/* <a href="/" className="toggle-button">
-          <span className="bar"></span>
-          <span className="bar"></span>
-          <span className="bar"></span>
-        </a> */}
 
         <div className="navbar-links">
           <ul>
@@ -48,7 +43,7 @@ export default function Navigation() {
             ) : (
               <div>
                 <li>
-                  <a href="/user">Your account</a>
+                  <a href="/user">{user.firstName}</a>
                 </li>
                 <button
                   className="button-logout"

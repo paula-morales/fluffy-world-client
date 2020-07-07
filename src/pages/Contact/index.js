@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Jumbotron, Form, Col, Button } from "react-bootstrap";
+import { Container, Form, Col, Button, Row } from "react-bootstrap";
 import "./Contact.css";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,13 +13,13 @@ import { typeOfServicesSelector } from "../../store/typeOfServices/selectors";
 import { showMessageWithTimeout } from "../../store/appState/actions";
 
 export default function Contact() {
-  const { iduser } = useParams();
+  const { idprofile } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
   const [date, setDate] = useState();
   const [message, setMessage] = useState();
   const [hour, setHour] = useState();
-  const profile = useSelector(profilesByIdSelector(parseInt(iduser)));
+  const profile = useSelector(profilesByIdSelector(parseInt(idprofile)));
   const token = useSelector(selectToken);
   const hours = [];
   let serviceSelected;
@@ -62,7 +62,7 @@ export default function Contact() {
       );
     } else {
       dispatch(
-        sendEmail(profile.user.id, date, hour, message, profile.serviceId)
+        sendEmail(profile.userId, date, hour, message, profile.serviceId)
       );
       setDate("");
       setHour("");
@@ -71,60 +71,82 @@ export default function Contact() {
   }
 
   return (
-    <Container>
-      <Jumbotron className="background-dog">
-        <h1>Contact form</h1>
-      </Jumbotron>
-
-      {profile ? (
-        <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
-          <Form.Label>
-            Service: {serviceSelected ? serviceSelected.name : null}
-          </Form.Label>
-          <Form.Group controlId="formBasicDate">
-            <Form.Label>Date</Form.Label>
-            <Form.Control
-              value={date}
-              onChange={(event) => setDate(event.target.value)}
-              type="date"
-              required
+    <>
+      <div className="contact">
+        <Container>
+          {" "}
+          <h1>Contact form</h1>
+        </Container>{" "}
+      </div>
+      <div>
+        <Row>
+          <Col className="col-4">
+            <img
+              className="contact-image"
+              src={require("../../images/dog-cat.png")}
+              alt="cat-dog"
             />
-          </Form.Group>
-          <Form.Group controlId="formBasicHour">
-            <Form.Label>
-              Choose a time. {profile.user.firstName} is available from{" "}
-              <strong>{profile.availableFrom}h</strong> until{" "}
-              <strong>{profile.availableUntil}h</strong>.
-            </Form.Label>
-            <Form.Control
-              as="select"
-              onChange={(event) => setHour(event.target.value)}
-            >
-              <option>Select</option>
-              {hours
-                ? hours.map((hour) => <option key={hour}>{hour}</option>)
-                : null}
-            </Form.Control>
-          </Form.Group>
+          </Col>
+          <Col>
+            {profile ? (
+              <Form as={Col} md={{ span: 6 }} className="mt-5">
+                <Form.Label>
+                  Service: {serviceSelected ? serviceSelected.name : null}
+                </Form.Label>
+                <Form.Group controlId="formBasicDate">
+                  <Form.Label>Date</Form.Label>
+                  <Form.Control
+                    value={date}
+                    onChange={(event) => setDate(event.target.value)}
+                    type="date"
+                    required
+                  />
+                </Form.Group>
+                <Form.Group controlId="formBasicHour">
+                  <Form.Label>
+                    Choose a time. {profile.user.firstName} is available from{" "}
+                    <strong>{profile.availableFrom}h</strong> until{" "}
+                    <strong>{profile.availableUntil}h</strong>.
+                  </Form.Label>
+                  <Form.Control
+                    as="select"
+                    onChange={(event) => setHour(event.target.value)}
+                  >
+                    <option>Select</option>
+                    {hours
+                      ? hours.map((hour) => <option key={hour}>{hour}</option>)
+                      : null}
+                  </Form.Control>
+                </Form.Group>
 
-          <Form.Group controlId="formBasicMessage">
-            <Form.Label>Message</Form.Label>
-            <Form.Control
-              value={message}
-              onChange={(event) => setMessage(event.target.value)}
-              type="text"
-              placeholder="Describe your needs"
-              required
-              style={{ height: "10rem" }}
-            />
-          </Form.Group>
-          <Form.Group className="mt-5">
-            <Button variant="primary" type="submit" onClick={onSubmitHandler}>
-              Submit
-            </Button>
-          </Form.Group>
-        </Form>
-      ) : null}
-    </Container>
+                <Form.Group controlId="formBasicMessage">
+                  <Form.Label>Message</Form.Label>
+
+                  <textarea
+                    style={{
+                      border: "1px solid #ced4da",
+                      borderRadius: ".25rem",
+                    }}
+                    name="Message"
+                    rows="9"
+                    value={message}
+                    onChange={(event) => setMessage(event.target.value)}
+                  ></textarea>
+                </Form.Group>
+                <Form.Group className="mt-1">
+                  <Button
+                    variant="secondary"
+                    type="submit"
+                    onClick={onSubmitHandler}
+                  >
+                    Submit
+                  </Button>
+                </Form.Group>
+              </Form>
+            ) : null}
+          </Col>
+        </Row>
+      </div>
+    </>
   );
 }
