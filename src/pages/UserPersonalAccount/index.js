@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Jumbotron, Container } from "react-bootstrap";
+import { Container, Col, Row } from "react-bootstrap";
 import { selectUser } from "../../store/user/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFavorites } from "../../store/favorites/actions";
@@ -43,11 +43,15 @@ export default function UserPersonalAccount() {
       favProfilesToDisplay.push(filtered[0]);
     });
 
-    return favProfilesToDisplay.map((profile) => (
-      <p key={profile.title}>
-        <NavLink to={`/userservice/${profile.id}`}>{profile.title}</NavLink>
-      </p>
-    ));
+    return (
+      <div>
+        {favProfilesToDisplay.map((profile) => (
+          <p key={profile.id}>
+            <NavLink to={`/userservice/${profile.id}`}>{profile.title}</NavLink>
+          </p>
+        ))}
+      </div>
+    );
   };
 
   let profilesToDisplay = [];
@@ -62,36 +66,69 @@ export default function UserPersonalAccount() {
   };
   return (
     <>
-      <Jumbotron>
-        <Container>Your account</Container>
-      </Jumbotron>
-      <Container>
-        <img src={profilePicture} alt={email} />
-        <p>
-          Full Name: {firstName} {lastName}
-        </p>
-        <p>Email: {email}</p>
-        <p>Phone number: {phoneNumber}</p>
-        <p>
-          You are registered as
-          {isOwner ? <strong> Owner</strong> : <strong> Candidate</strong>}
-        </p>
+      <div className="contact">
+        <Container>
+          {" "}
+          <h1>Your account</h1>
+        </Container>{" "}
+      </div>
+      <Container className="mt-5 mb-5">
+        <Row>
+          <Col className="col-3">
+            <img
+              src={profilePicture}
+              alt={email}
+              style={{ width: "200px", height: "200px" }}
+            />
+          </Col>
+          <Col className="mt-3">
+            <Row>
+              <h4>
+                {firstName} {lastName}
+              </h4>
+            </Row>
+            <Row className="mt-2">
+              <p>Email: {email}</p>
+            </Row>
+
+            <Row>
+              <p>Phone number: {phoneNumber}</p>
+            </Row>
+            <Row>
+              {" "}
+              <p>
+                You are registered as
+                {isOwner ? (
+                  <strong> owner</strong>
+                ) : (
+                  <strong> candidate</strong>
+                )}
+              </p>
+            </Row>
+          </Col>
+        </Row>
       </Container>
-      <Jumbotron>
-        <Container>Your favorites</Container>
-      </Jumbotron>
-      <Container>
+      <div className="contact">
+        <Container>
+          {" "}
+          <h1>Your favorites</h1>
+        </Container>{" "}
+      </div>
+      <Container className="mt-5 mb-5">
         {!favorites ? (
           <p>You don't have any favorites at the moment</p>
         ) : (
           displayFavorites()
         )}
       </Container>
+      <div className="contact">
+        <Container>
+          {" "}
+          <h1>Your {isOwner ? "pet" : "services"}</h1>
+        </Container>{" "}
+      </div>
 
-      <Jumbotron>
-        <Container>Your {isOwner ? "pet" : "services"} </Container>
-      </Jumbotron>
-      <Container>
+      <Container className="mt-5 mb-5">
         {!profilesToDisplay ? (
           <p>You don't have any {isOwner ? "pet" : "services"}</p>
         ) : (

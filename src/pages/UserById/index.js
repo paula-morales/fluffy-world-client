@@ -5,7 +5,7 @@ import { getUserById } from "../../store/userById/action";
 import { fetchProfiles } from "../../store/profiles/actions";
 import { userByIdSelector } from "../../store/userById/selectors";
 import { profilesSelector } from "../../store/profiles/selectors";
-import { Jumbotron, Container } from "react-bootstrap";
+import { Container, Col, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
 export default function UserById() {
@@ -35,26 +35,52 @@ export default function UserById() {
   const { firstName, lastName, profilePicture, isOwner } = user;
   return (
     <>
-      <Jumbotron>
-        <Container>Account</Container>
-      </Jumbotron>
+      <div className="contact">
+        <Container>
+          {" "}
+          <h1>Account</h1>
+        </Container>{" "}
+      </div>
       {user ? (
         <>
-          <Container>
-            <img src={profilePicture} alt={firstName} />
-            <p>
-              Full Name: {firstName} {lastName}
-            </p>
-            <p>
-              {firstName} registered as
-              {isOwner ? <strong> owner</strong> : <strong> candidate</strong>}
-            </p>
-          </Container>
+          <Container className="mt-5 mb-5">
+            <Row>
+              <Col className="col-3">
+                <img
+                  src={profilePicture}
+                  alt={firstName}
+                  style={{ width: "200px", height: "200px" }}
+                />
+              </Col>
+              <Col className="mt-3">
+                <Row>
+                  <h4>
+                    {firstName} {lastName}
+                  </h4>
+                </Row>
 
-          <Jumbotron>
-            <Container>Registered {isOwner ? "pet" : "services"} </Container>
-          </Jumbotron>
-          <Container>
+                <Row>
+                  {" "}
+                  <p>
+                    {firstName} is registered as
+                    {isOwner ? (
+                      <strong> owner</strong>
+                    ) : (
+                      <strong> candidate</strong>
+                    )}
+                  </p>
+                </Row>
+              </Col>
+            </Row>
+          </Container>
+          <div className="contact">
+            <Container>
+              {" "}
+              <h1>Registered {isOwner ? "pet" : "services"}</h1>
+            </Container>{" "}
+          </div>
+
+          <Container className="mt-5 mb-5">
             {!profilesToDisplay ? <p>None</p> : displayProfiles()}
           </Container>
         </>
