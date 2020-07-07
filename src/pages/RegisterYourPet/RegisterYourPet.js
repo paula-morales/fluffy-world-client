@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Jumbotron, Container, Form, Col, Button } from "react-bootstrap";
+import {
+  Jumbotron,
+  Container,
+  Form,
+  Col,
+  Button,
+  Alert,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { showMessageWithTimeout } from "../../store/appState/actions";
 import { useHistory } from "react-router-dom";
@@ -18,9 +25,10 @@ export default function RegisterYourPet() {
   const history = useHistory();
   const user = useSelector(selectUser);
   useEffect(() => {
-    if (!user.isOwner) {
+    if (user.isCandidate || !user.token) {
       history.push("/");
     }
+
     dispatch(fetchProfiles);
   }, [user, history, dispatch]);
 
@@ -36,14 +44,21 @@ export default function RegisterYourPet() {
       return (profile.serviceId = 5);
     });
   }
+
   if (pet) {
-    history.push("/");
-    dispatch(
-      showMessageWithTimeout("danger", true, "You already registered your pet")
-    );
+    return <Alert variant="danger">You already registered your pet</Alert>;
   }
+
   function handlerSubmit() {
-    if (
+    if (pet) {
+      dispatch(
+        showMessageWithTimeout(
+          "danger",
+          true,
+          "You already registered your pet"
+        )
+      );
+    } else if (
       !picture ||
       !name ||
       !description ||
@@ -128,7 +143,7 @@ export default function RegisterYourPet() {
             />
           </Form.Group>
           <Form.Group className="mt-5">
-            <Button variant="danger" type="submit" onClick={handlerSubmit}>
+            <Button variant="secondary" type="submit" onClick={handlerSubmit}>
               Submit
             </Button>
           </Form.Group>
