@@ -18,6 +18,7 @@ import { selectUser } from "../../store/user/selectors";
 import "../RegisterYourService/RegisterYourService.css";
 import { fetchFavorites, toggleFavorite } from "../../store/favorites/actions";
 import { selectFavorites } from "../../store/favorites/selector";
+import "./userServices.css";
 
 export default function UserServices() {
   const [rating, setRating] = useState(0);
@@ -123,41 +124,81 @@ export default function UserServices() {
     <Container>
       <Container>
         {profile && service ? (
-          <Row className="mt-5">
+          <Row className="mt-5 details-candidate">
             <Col>
               <Row>
-                <Col>
+                <Col className="col-4">
                   <Image
                     style={{
-                      width: "200px",
-                      height: "200px",
+                      width: "150px",
+                      height: "150px",
                       borderRadius: "100%",
                     }}
                     src={profile.user.profilePicture}
                   />
                 </Col>
                 <Col>
-                  <Row>Service: {service.name}</Row>
                   <Row>
-                    {profile.title}
-                    {token ? (
-                      isFavorite ? (
-                        <span role="img" aria-label="heart" onClick={toggle}>
-                          ❤️
-                        </span>
-                      ) : (
-                        <span
-                          role="img"
-                          aria-label="empty-heart"
-                          onClick={toggle}
-                        >
-                          ♡
-                        </span>
-                      )
-                    ) : null}
+                    <Col
+                      style={{
+                        paddingLeft: "0",
+                      }}
+                    >
+                      {" "}
+                      Service: {service.name}
+                    </Col>
+                    {profile.user.isOwner ? null : (
+                      <Col className="col-3">
+                        <strong>{profile.price}€/h</strong>
+                      </Col>
+                    )}
                   </Row>
                   <Row>
-                    <NavLink to={`/user/${profile.userId}`}>
+                    <Col
+                      style={{
+                        paddingLeft: "0",
+                      }}
+                    >
+                      <h2>{profile.title}</h2>
+                    </Col>
+                    <Col className="col-3">
+                      {token ? (
+                        isFavorite ? (
+                          <div>
+                            <img
+                              src="https://i.dlpng.com/static/png/5345416-instagram-heart-png-clipart-background-png-play-heart-png-820_613_preview.png"
+                              alt="heart"
+                              style={{
+                                width: "50px",
+                                height: "40px",
+                                cursor: "pointer",
+                              }}
+                              onClick={toggle}
+                            />
+                          </div>
+                        ) : (
+                          <div
+                            style={{
+                              marginLeft: "8px",
+                            }}
+                          >
+                            <img
+                              src="https://i.stack.imgur.com/Ui4gd.png"
+                              alt="heart"
+                              style={{
+                                width: "35px",
+                                height: "40px",
+                                cursor: "pointer",
+                              }}
+                              onClick={toggle}
+                            />
+                          </div>
+                        )
+                      ) : null}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <NavLink to={`/user/${profile.user.id}`}>
                       {profile.user.firstName}
                     </NavLink>
                   </Row>
@@ -173,36 +214,59 @@ export default function UserServices() {
                   <Row>
                     {profile.user.languages.length
                       ? profile.user.languages.map((lang) => (
-                          <span className="tag" key={lang.name}>
+                          <span
+                            className="tag"
+                            style={{
+                              backgroundColor: "#dfeef3",
+                              color: "black",
+                              fontSize: "15px",
+                            }}
+                            key={lang.name}
+                          >
                             {lang.name}
                           </span>
                         ))
                       : null}
                   </Row>
-                  <Row>Available from {profile.availableFrom} h</Row>
-                  <Row>Available until {profile.availableUntil} h</Row>
+                  <Row>
+                    Available from {profile.availableFrom}h until{" "}
+                    {profile.availableUntil}h
+                  </Row>
                 </Col>
-
-                {profile.user.isOwner ? null : (
-                  <Col>
-                    <strong>{profile.price}€/h</strong>
-                  </Col>
-                )}
               </Row>
-              <Row style={{ padding: "2rem" }}>{profile.description}</Row>
+              <Row style={{ padding: "2rem 0", fontSize: "22px" }}>
+                "{profile.description}"
+              </Row>
               <Row>
-                <NavLink to={`/contact/${profile.serviceId}`}>
-                  <Button>Contact {profile.user.firstName}</Button>
-                </NavLink>
+                <Col className="justify-content-center text-center">
+                  <NavLink to={`/contact/${profile.id}`}>
+                    <Button
+                      variant="dark"
+                      style={{ textTransform: "uppercase" }}
+                    >
+                      Contact {profile.user.firstName}
+                    </Button>
+                  </NavLink>
+                </Col>
               </Row>
             </Col>
             <Col>
-              <Image src={profile.picture} />
+              <Image
+                style={{ height: "350px", width: "100%", borderRadius: "3px" }}
+                src={profile.picture}
+              />
             </Col>
           </Row>
         ) : null}
       </Container>
-      <Container>
+      <Container
+        style={{
+          marginTop: "50px",
+
+          backgroundColor: "#dfeef3",
+          padding: "40px",
+        }}
+      >
         {reviewsToDisplay ? (
           reviewsToDisplay.length ? (
             <div>
@@ -227,7 +291,13 @@ export default function UserServices() {
         ) : null}
       </Container>
       {user.isOwner ? (
-        <Form>
+        <Form
+          className="mb-5"
+          style={{
+            backgroundColor: "#dfeef3",
+            padding: "0 40px 50px 40px",
+          }}
+        >
           <Form.Group>
             <Row>
               <Form.Label>Leave a review</Form.Label>
@@ -251,11 +321,12 @@ export default function UserServices() {
               <Form.Label>Comment</Form.Label>
             </Row>
             <Row>
-              <Form.Control
+              <textarea
+                name="Comment"
+                rows="5"
                 value={comment}
-                type="text"
                 onChange={(e) => setComment(e.target.value)}
-              />
+              ></textarea>
             </Row>
           </Form.Group>
           <Button variant="danger" onClick={handlerSubmit}>

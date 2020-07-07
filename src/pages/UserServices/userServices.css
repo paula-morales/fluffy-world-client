@@ -1,0 +1,14 @@
+.details-candidate {
+  font-family: "Lato", serif;
+  font-size: 22px;
+}
+.row {
+  font-family: "Lato", serif;
+  font-size: 18px;
+}
+textarea {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+}
