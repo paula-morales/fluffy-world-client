@@ -1,16 +1,56 @@
-import React, { useState, useEffect } from "react";
-import { signUp } from "../../store/user/actions";
-import { selectUser } from "../../store/user/selectors";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import Geocode from "react-geocode";
-import { apiKeyGoogle } from "../../config/constants";
-import { showMessageWithTimeout } from "../../store/appState/actions";
 import TextField from "@material-ui/core/TextField";
+import Chip from "@material-ui/core/Chip";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { signUp } from "../../store/user/actions";
+import { selectUser } from "../../store/user/selectors";
+import { showMessageWithTimeout } from "../../store/appState/actions";
+import { apiKeyGoogle } from "../../config/constants";
 import { languageList } from "../../config/languagesList";
-import "./Signup.css";
 import SignupSVG from "../../components/svg/SignupSVG";
+import "./Signup.css";
+
+//autocomplete address with Google Places API
+let autoComplete;
+
+const loadScript = (url, callback) => {
+  let script = document.createElement("script");
+  script.type = "text/javascript";
+
+  if (script.readyState) {
+    script.onreadystatechange = function () {
+      if (script.readyState === "loaded" || script.readyState === "complete") {
+        script.onreadystatechange = null;
+        callback();
+      }
+    };
+  } else {
+    script.onload = () => callback();
+  }
+
+  script.src = url;
+  document.getElementsByTagName("head")[0].appendChild(script);
+};
+
+function handleScriptLoad(updateQuery, autoCompleteRef) {
+  autoComplete = new window.google.maps.places.Autocomplete(
+    autoCompleteRef.current,
+    { types: ["geocode"], componentRestrictions: { country: "nl" } }
+  );
+  autoComplete.setFields(["address_components", "formatted_address"]);
+  autoComplete.addListener("place_changed", () =>
+    handlePlaceSelect(updateQuery)
+  );
+}
+
+async function handlePlaceSelect(updateQuery) {
+  const addressObject = autoComplete.getPlace();
+  const query = addressObject.formatted_address;
+  updateQuery(query);
+}
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -19,12 +59,13 @@ export default function SignUp() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [address, setAddress] = useState("");
-  const [language, setLanguage] = useState([]);
-  const dispatch = useDispatch();
-  const user = useSelector(selectUser);
-  const history = useHistory();
+  const [query, setQuery] = useState("");
   const [radioValue, setRadioValue] = useState("");
+  const [lang, setLang] = useState([]);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const autoCompleteRef = useRef(null);
+  const user = useSelector(selectUser);
 
   const radios = [
     { name: "I am a pet owner", value: "1" },
@@ -39,16 +80,15 @@ export default function SignUp() {
     }
   }, [user, history]);
 
+  useEffect(() => {
+    loadScript(
+      `https://maps.googleapis.com/maps/api/js?key=${apiKeyGoogle}&libraries=places&language=en`,
+      () => handleScriptLoad(setQuery, autoCompleteRef)
+    );
+  }, []);
+
   Geocode.setApiKey(apiKeyGoogle);
   Geocode.setRegion("nl");
-
-  //to set languages chosen
-
-  function addLanguage() {
-    var input = document.getElementById("inputLanguage");
-    setLanguage([...language, input.value]);
-    input.value = "";
-  }
 
   let isOwner = false;
   let isCandidate = false;
@@ -68,8 +108,8 @@ export default function SignUp() {
       !phoneNumber ||
       !email ||
       !password ||
-      !address ||
-      !language.length ||
+      !query ||
+      !lang ||
       (!isOwner && !isCandidate) ||
       (isOwner && isCandidate)
     ) {
@@ -77,7 +117,10 @@ export default function SignUp() {
         showMessageWithTimeout("danger", true, "Please fill out all the fields")
       );
     } else {
-      Geocode.fromAddress(address).then(
+      let language = [];
+      lang.map((v) => language.push(v.title));
+
+      Geocode.fromAddress(query).then(
         (response) => {
           const { lat, lng } = response.results[0].geometry.location;
 
@@ -114,10 +157,9 @@ export default function SignUp() {
     setFirstName("");
     setLastName("");
     setPhoneNumber("");
-    setAddress("");
+    setQuery("");
     setRadioValue("");
     setProfilePicture("");
-    setLanguage([]);
   }
 
   return (
@@ -151,7 +193,6 @@ export default function SignUp() {
           <div className="inputs-container phone-number">
             <label>Phone number</label>
             <input
-              type="number"
               value={phoneNumber}
               onChange={(event) => setPhoneNumber(event.target.value)}
               placeholder="Enter phone number"
@@ -172,40 +213,39 @@ export default function SignUp() {
           <div className="inputs-container address">
             <label>Address</label>
             <input
-              value={address}
-              onChange={(event) => setAddress(event.target.value)}
+              type="address"
+              ref={autoCompleteRef}
+              onChange={(event) => setQuery(event.target.value)}
+              value={query}
               placeholder="Enter address"
               className="form-item"
             />
           </div>
         </div>
         <div className="items-container">
-          <Autocomplete
-            id="inputLanguage"
-            options={languageList}
-            getOptionLabel={(option) => option.title}
-            style={{ width: 300 }}
-            renderInput={(params) => (
-              <TextField {...params} label="Language" variant="outlined" />
-            )}
-          />
-          <button
-            className="button-add"
-            type="button"
-            id="add"
-            onClick={addLanguage}
-          >
-            Add{" "}
-          </button>{" "}
-          {language
-            ? language.length
-              ? language.map((lang) => (
-                  <div className="tag" key={lang}>
-                    {lang}
-                  </div>
+          <div className="inputs-container language">
+            <label>Language</label>
+            <Autocomplete
+              multiple
+              id="inputLanguage"
+              size="small"
+              style={{ width: 480 }}
+              options={languageList}
+              getOptionLabel={(option) => option.title}
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" />
+              )}
+              onChange={(event, newValue) => {
+                setLang([...newValue]);
+              }}
+              value={lang}
+              renderTags={(tagValue, getTagProps) =>
+                tagValue.map((option, index) => (
+                  <Chip label={option.title} {...getTagProps({ index })} />
                 ))
-              : null
-            : null}
+              }
+            />
+          </div>
         </div>
         <div className="items-container">
           <div className="inputs-container email">
@@ -271,7 +311,7 @@ export default function SignUp() {
       </div>
 
       <div className="sign-up-svg">
-        <SignupSVG />
+        <SignupSVG className="sign-up-svg" />
       </div>
     </div>
   );
