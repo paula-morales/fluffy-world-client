@@ -22,16 +22,15 @@ export default function UserById() {
 
   let profilesToDisplay = [];
   const displayProfiles = () => {
-    if (user) {
-      const filtered = profiles.filter((prof) => prof.userId === user.id);
-      return filtered.map((profile) => (
-        <div className="profile-link" key={profile.title}>
-          <a href={`/userservice/${profile.id}`}>
-            <button class="btn4">{profile.title}</button>
-          </a>
-        </div>
-      ));
-    }
+    const filtered = profiles.filter((prof) => prof.userId === user.id);
+
+    return filtered.map((profile) => (
+      <div className="profile-link" key={profile.title}>
+        <a href={`/userservice/${profile.id}`}>
+          <button className="btn4">{profile.title}</button>
+        </a>
+      </div>
+    ));
   };
 
   return (
@@ -59,18 +58,6 @@ export default function UserById() {
                     {firstName} {lastName}
                   </h4>
                 </Row>
-
-                <Row>
-                  {" "}
-                  <p>
-                    {firstName} is registered as
-                    {isOwner ? (
-                      <strong> owner</strong>
-                    ) : (
-                      <strong> candidate</strong>
-                    )}
-                  </p>
-                </Row>
               </Col>
             </Row>
           </Container>
@@ -82,7 +69,13 @@ export default function UserById() {
           </div>
 
           <Container className="mt-5 mb-5">
-            {!profilesToDisplay ? <p>None</p> : displayProfiles()}
+            <div>
+              {!profilesToDisplay ? (
+                <p style={{ fontSize: "20px" }}>None</p>
+              ) : (
+                displayProfiles()
+              )}
+            </div>
           </Container>
         </>
       ) : null}

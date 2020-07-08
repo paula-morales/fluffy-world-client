@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 .text-welcome-container a {
   text-decoration: none;
   text-transform: uppercase;
@@ -27,7 +31,6 @@
 }
 
 .container-homepage {
-  /* width: 100vw; */
   height: 100vh;
   margin: 0;
   overflow: hidden;
@@ -39,11 +42,10 @@
 }
 
 .curved-div {
-  /* position: relative; */
   background: #d3b9aa;
 
   color: #fff;
-  /* text-align: center; */
+
   overflow: hidden;
   height: 70vh;
 }
@@ -67,18 +69,17 @@
   top: 10vh;
   text-align: center;
   justify-content: center;
-  /* flex-direction: column; */
 }
 
 .text-welcome-container {
-  min-width: 75vw;
+  min-width: 65vw;
   text-align: left;
 }
 
 .image-wrapper {
   display: block;
   text-align: right;
-  margin-right: 10vw;
+  margin-right: 15vw;
   margin-top: -5vw;
   position: absolute;
   bottom: 0;
@@ -108,9 +109,9 @@
 }
 
 .dog-walking-container svg {
-  position: absolute;
-  top: 100vh;
-  width: 800px;
+  position: relative;
+  left: 100px;
+  width: 1000px;
   height: 100vh;
 }
 
@@ -139,6 +140,51 @@
   background-color: #e1d5bf;
 }
 
+.homepage-singup {
+  font-size: 25px;
+}
+.homepage-singup:focus,
+button:hover {
+  background-color: #3d495f;
+  outline: none;
+}
+
+.card {
+  transition: 0.3s;
+  width: 300px;
+  min-height: fit-content;
+  height: 470px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  padding: 2px 16px;
+}
+
+.container-cards {
+  display: flex;
+  justify-content: flex-end;
+}
+.about {
+  position: absolute;
+  bottom: 10px;
+}
+
+.homepage-aboutus {
+  background-color: #99b4c7;
+}
+
+.many-dogs {
+  position: absolute;
+  bottom: -200vh;
+}
+
+.card {
+  margin: 0 20px;
+}
 @media (max-width: 1225px) {
   .image-wrapper {
     display: none;

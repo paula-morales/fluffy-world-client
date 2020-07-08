@@ -1,6 +1,6 @@
 .btn4 {
   border: 1px solid #403d50;
-  border-radius: 20px;
+  border-radius: 15px;
   background: none;
   padding: 10px 20px;
 
@@ -14,9 +14,6 @@
   color: #fff;
 }
 
-.btn4:hover {
-  color: black;
-}
 .btn4::before {
   content: "";
   position: absolute;

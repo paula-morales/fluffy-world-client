@@ -43,8 +43,12 @@ export default function SignUp() {
         </div>{" "}
         <div className="container-form">
           <h1>Log in</h1>
+
           <label>
-            <p>Email address</p>
+            <p>
+              <i className="fa fa-envelope-o fa-fw" aria-hidden="true"></i>{" "}
+              Email address
+            </p>
           </label>
           <input
             type="email"
@@ -52,7 +56,9 @@ export default function SignUp() {
             onChange={(event) => setEmail(event.target.value)}
           />
           <label>
-            <p>Password</p>
+            <p>
+              <i className="fa fa-key fa-fw" aria-hidden="true"></i> Password{" "}
+            </p>
           </label>
           <input
             type="password"

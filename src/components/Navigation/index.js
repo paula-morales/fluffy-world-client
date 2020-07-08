@@ -12,7 +12,9 @@ export default function Navigation() {
   return (
     <div className="navbar-homepage">
       <nav className="navbar">
-        <div className="brand-title">FLUFFY WORLD</div>
+        <div className="brand-title">
+          <i className="fa fa-paw"></i> FLUFFY WORLD
+        </div>
 
         <div className="navbar-links">
           <ul>
