@@ -34,6 +34,7 @@ export default function RegisterYourPet() {
   }, [user, history, dispatch]);
 
   //you only can register one pet
+  //we register a pet with the service's name "pet friends" in our database
   let existingProfiles;
   let pet;
   if (profiles && user) {
@@ -60,7 +61,23 @@ export default function RegisterYourPet() {
       dispatch(
         showMessageWithTimeout("danger", true, "Please fill out all the fields")
       );
+    } else if (
+      availableFrom > 24 ||
+      availableFrom < 0 ||
+      availableUntil > 24 ||
+      availableUntil < 0 ||
+      availableFrom > availableUntil
+    ) {
+      dispatch(
+        showMessageWithTimeout(
+          "danger",
+          true,
+          "Please choose a time between 0 and 24 H"
+        )
+      );
     } else {
+      parseInt(availableFrom);
+      parseInt(availableUntil);
       dispatch(
         registerPet(name, description, picture, availableFrom, availableUntil)
       );
@@ -117,7 +134,10 @@ export default function RegisterYourPet() {
             <Form.Control
               value={availableFrom}
               onChange={(event) => setAvailableFrom(event.target.value)}
-              type="text"
+              type="number"
+              step="1"
+              max={24}
+              min={0}
               placeholder="Enter a number (format 24H)"
               required
             />
@@ -129,8 +149,9 @@ export default function RegisterYourPet() {
             <Form.Control
               value={availableUntil}
               onChange={(event) => setAvailableUntil(event.target.value)}
-              type="number"
               placeholder="Enter a number (format 24H)"
+              type="number"
+              step="1"
               max={24}
               min={0}
               required
