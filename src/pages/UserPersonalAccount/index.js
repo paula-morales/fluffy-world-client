@@ -6,8 +6,9 @@ import { fetchFavorites } from "../../store/favorites/actions";
 import { selectFavorites } from "../../store/favorites/selector";
 import { selectToken } from "../../store/user/selectors";
 import { fetchProfiles } from "../../store/profiles/actions";
-import { useHistory, NavLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { profilesSelector } from "../../store/profiles/selectors";
+import "../UserById/userById.css";
 
 export default function UserPersonalAccount() {
   const dispatch = useDispatch();
@@ -42,12 +43,16 @@ export default function UserPersonalAccount() {
     });
 
     return (
-      <div>
-        {favProfilesToDisplay.map((profile) => (
-          <p key={profile.id}>
-            <NavLink to={`/userservice/${profile.id}`}>{profile.title}</NavLink>
-          </p>
-        ))}
+      <div className="profile-link">
+        {favProfilesToDisplay.length ? (
+          favProfilesToDisplay.map((profile) => (
+            <a href={`/userservice/${profile.id}`} key={profile.title}>
+              <button className="btn4">{profile.title}</button>
+            </a>
+          ))
+        ) : (
+          <p style={{ fontSize: "20px" }}>You don't have any favorites yet.</p>
+        )}
       </div>
     );
   };
@@ -56,11 +61,15 @@ export default function UserPersonalAccount() {
   const displayProfiles = () => {
     const filtered = profiles.filter((prof) => prof.userId === user.id);
 
-    return filtered.map((profile) => (
-      <p key={profile.title}>
-        <NavLink to={`/userservice/${profile.id}`}>{profile.title}</NavLink>
-      </p>
-    ));
+    return (
+      <div className="profile-link">
+        {filtered.map((profile) => (
+          <a href={`/userservice/${profile.id}`} key={profile.title}>
+            <button className="btn4">{profile.title}</button>
+          </a>
+        ))}
+      </div>
+    );
   };
   return (
     <>
@@ -126,7 +135,7 @@ export default function UserPersonalAccount() {
         </Container>{" "}
       </div>
 
-      <Container className="mt-5 mb-5">
+      <Container className="mt-4 mb-5">
         {!profilesToDisplay ? (
           <p>You don't have any {isOwner ? "pet" : "services"}</p>
         ) : (

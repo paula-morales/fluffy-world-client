@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Jumbotron, Container, Form, Col, Button } from "react-bootstrap";
+import { Container, Form, Col, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { showMessageWithTimeout } from "../../store/appState/actions";
@@ -115,18 +115,19 @@ export default function RegisterYourService() {
 
   return (
     <>
-      <Jumbotron>
+      <div className="contact">
         <Container>
-          <h1>Register Your Service</h1>
-        </Container>
-      </Jumbotron>
+          {" "}
+          <h1>Register your service</h1>
+        </Container>{" "}
+      </div>
       {!servicesList.length ? (
         <Container>
           <h3>Sorry, you already registered all the services</h3>
         </Container>
       ) : (
         <Container>
-          <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
+          <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5 mb-5">
             <Form.Group controlId="formBasicTitle">
               <Form.Label>Title</Form.Label>
               <Form.Control
@@ -217,7 +218,7 @@ export default function RegisterYourService() {
               </Form.Control>
             </Form.Group>
 
-            <Button variant="danger" type="submit" onClick={handlerSubmit}>
+            <Button variant="secondary" type="submit" onClick={handlerSubmit}>
               Submit
             </Button>
           </Form>

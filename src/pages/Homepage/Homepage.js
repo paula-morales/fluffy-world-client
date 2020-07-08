@@ -6,10 +6,11 @@ import { fetchServices } from "../../store/typeOfServices/actions";
 import { typeOfServicesSelector } from "../../store/typeOfServices/selectors";
 import { fetchProfilesByDistance } from "../../store/profiles/actions";
 import { showMessageWithTimeout } from "../../store/appState/actions";
+import { selectUser } from "../../store/user/selectors";
 import Loading from "../../components/Loading";
 import DogWalking from "../../components/svg/DogWalking";
 import ProfilesByServiceId from "../../components/ProfilesByServiceId/ProfilesByServiceId";
-import { selectUser } from "../../store/user/selectors";
+import Aboutus from "../../components/Aboutus";
 import { apiKeyGoogle } from "../../config/constants";
 import "./Homepage.css";
 
@@ -135,15 +136,13 @@ export default function Homepage() {
                 Welcolme{" "}
                 {user.firstName ? <span>back, {user.firstName}</span> : null}
               </h1>
-              {!user.token ? (
-                <>
-                  <h2>Sign up and find pet friends around you!</h2>
-                  <a href="/signup">
-                    {" "}
-                    <button className="button sign-up">Sign up</button>
-                  </a>
-                </>
-              ) : null}
+              {!user.token ? <h2>Find the best candidate</h2> : null}
+              <a href="#middle">
+                {" "}
+                <button className="button homepage-singup">
+                  How does it work?
+                </button>
+              </a>
             </div>
           </div>
 
@@ -156,13 +155,15 @@ export default function Homepage() {
           </div>
         </div>
       </div>
-
-      <div className="container-homepage homepage-2">
+      <div className="container-homepage homepage-aboutus" id="middle">
+        {" "}
         <div className="dog-walking-container">
           <DogWalking />
         </div>
-
-        <Container>
+        <Aboutus />
+      </div>
+      <div className="container-homepage homepage-2" id="look-for">
+        <Container className="mt-5">
           <Form>
             {" "}
             <Row className="search-box">
@@ -213,10 +214,24 @@ export default function Homepage() {
                   onClick={handlerClick}
                   className="button-search"
                 >
-                  Search
+                  <i
+                    className="fa fa-search"
+                    aria-hidden="true"
+                    style={{ marginRight: "15px" }}
+                  ></i>
+                  SEARCH
                 </Button>
               </Col>{" "}
             </Row>
+            {!toggle ? (
+              <Row>
+                <img
+                  className="many-dogs"
+                  src={require("../../images/many-dogs.png")}
+                  alt="dogs"
+                />
+              </Row>
+            ) : null}
           </Form>
         </Container>
         {toggle ? (

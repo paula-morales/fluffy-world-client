@@ -229,7 +229,7 @@ export default function SignUp() {
               multiple
               id="inputLanguage"
               size="small"
-              style={{ width: 480 }}
+              style={{ maxWidth: 500, backgroundColor: "#fff" }}
               options={languageList}
               getOptionLabel={(option) => option.title}
               renderInput={(params) => (

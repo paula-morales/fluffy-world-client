@@ -280,13 +280,14 @@ export default function UserServices() {
                 "{profile.description}"
               </Row>
               <Row>
-                <Col className="justify-content-center text-center">
+                <Col>
                   <NavLink to={`/contact/${profile.id}`}>
                     <Button
                       variant="dark"
                       style={{ textTransform: "uppercase" }}
                     >
-                      Contact {profile.user.firstName}
+                      <i className="fa fa-envelope"></i> Contact{" "}
+                      {profile.user.firstName}
                     </Button>
                   </NavLink>
                 </Col>
