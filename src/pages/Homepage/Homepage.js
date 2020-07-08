@@ -1,46 +1,91 @@
-import React, { useEffect, useState } from "react";
-import "./Homepage.css";
+import React, { useEffect, useState, useRef } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { typeOfServicesSelector } from "../../store/typeOfServices/selectors";
-import { fetchServices } from "../../store/typeOfServices/actions";
 import Geocode from "react-geocode";
-import { apiKeyGoogle } from "../../config/constants";
-import ProfilesByServiceId from "../ProfilesByServiceId/ProfilesByServiceId";
+import { fetchServices } from "../../store/typeOfServices/actions";
+import { typeOfServicesSelector } from "../../store/typeOfServices/selectors";
 import { fetchProfilesByDistance } from "../../store/profiles/actions";
 import { showMessageWithTimeout } from "../../store/appState/actions";
 import Loading from "../../components/Loading";
 import DogWalking from "../../components/svg/DogWalking";
+import ProfilesByServiceId from "../../components/ProfilesByServiceId/ProfilesByServiceId";
 import { selectUser } from "../../store/user/selectors";
+import { apiKeyGoogle } from "../../config/constants";
+import "./Homepage.css";
+
+//autocomplete address with Google Places API
+let autoComplete;
+
+const loadScript = (url, callback) => {
+  let script = document.createElement("script");
+  script.type = "text/javascript";
+
+  if (script.readyState) {
+    script.onreadystatechange = function () {
+      if (script.readyState === "loaded" || script.readyState === "complete") {
+        script.onreadystatechange = null;
+        callback();
+      }
+    };
+  } else {
+    script.onload = () => callback();
+  }
+
+  script.src = url;
+  document.getElementsByTagName("head")[0].appendChild(script);
+};
+
+function handleScriptLoad(updateQuery, autoCompleteRef) {
+  autoComplete = new window.google.maps.places.Autocomplete(
+    autoCompleteRef.current,
+    { types: ["geocode"], componentRestrictions: { country: "nl" } }
+  );
+  autoComplete.setFields(["address_components", "formatted_address"]);
+  autoComplete.addListener("place_changed", () =>
+    handlePlaceSelect(updateQuery)
+  );
+}
+
+async function handlePlaceSelect(updateQuery) {
+  const addressObject = autoComplete.getPlace();
+  const query = addressObject.formatted_address;
+  updateQuery(query);
+}
 
 export default function Homepage() {
   const [serviceChosen, setServiceChosen] = useState(1);
-  const [address, setAddress] = useState();
   const [toggle, setToggle] = useState(false);
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [km, setKm] = useState(2);
+  const [query, setQuery] = useState("");
+  const autoCompleteRef = useRef(null);
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const services = useSelector(typeOfServicesSelector);
+
+  useEffect(() => {
+    loadScript(
+      `https://maps.googleapis.com/maps/api/js?key=${apiKeyGoogle}&libraries=places&language=en`,
+      () => handleScriptLoad(setQuery, autoCompleteRef)
+    );
+  }, []);
 
   useEffect(() => {
     dispatch(fetchServices);
   }, [dispatch]);
 
-  const services = useSelector(typeOfServicesSelector);
-
-  // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
   Geocode.setApiKey(apiKeyGoogle);
   Geocode.setRegion("nl");
 
-  // Get latidude & longitude from address.
-  function getCoordinates() {
-    if (!address) {
+  // Get latidude & longitude from address. After, dispatch action
+  function handlerClick() {
+    if (!query) {
       dispatch(
         showMessageWithTimeout("danger", true, "Please enter your address")
       );
     } else {
-      Geocode.fromAddress(address).then(
+      Geocode.fromAddress(query).then(
         (response) => {
           const { lat, lng } = response.results[0].geometry.location;
           setLatitude(lat);
@@ -61,6 +106,15 @@ export default function Homepage() {
       );
     }
   }
+
+  const displayServices = () =>
+    services.map((service) => {
+      return (
+        <option key={service.id} value={service.id}>
+          {service.name}
+        </option>
+      );
+    });
 
   return (
     <div>
@@ -113,7 +167,7 @@ export default function Homepage() {
             {" "}
             <Row className="search-box">
               <Col>
-                <Form.Group controlId="exampleForm.ControlSelect1">
+                <Form.Group controlId="looking-for">
                   <Form.Label className="label-text">
                     I am looking for
                   </Form.Label>
@@ -123,33 +177,24 @@ export default function Homepage() {
                       setServiceChosen(parseInt(event.target.value))
                     }
                   >
-                    {services
-                      ? services.map((service) => (
-                          <option key={service.id} value={service.id}>
-                            {service.name}
-                          </option>
-                        ))
-                      : null}
+                    {services ? displayServices() : null}
                   </Form.Control>
                 </Form.Group>
               </Col>
               <Col>
-                <Form.Group controlId="exampleForm.ControlInput1">
+                <Form.Group controlId="near">
                   <Form.Label className="label-text">Near</Form.Label>
-                  {/* <SearchLocationInput onChange={() => null} /> */}
                   <Form.Control
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    type="text"
-                    placeholder="Enter your address"
-                    required
+                    type="address"
+                    ref={autoCompleteRef}
+                    onChange={(event) => setQuery(event.target.value)}
+                    value={query}
                   />
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Group controlId="filter-radio">
                   <Form.Label className="label-text">Km</Form.Label>
-
                   <Form.Control
                     value={km}
                     onChange={(e) => setKm(e.target.value)}
@@ -165,7 +210,7 @@ export default function Homepage() {
               <Col>
                 <Button
                   variant="dark"
-                  onClick={getCoordinates}
+                  onClick={handlerClick}
                   className="button-search"
                 >
                   Search

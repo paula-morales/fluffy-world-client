@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { profilesSelector } from "../../store/profiles/selectors";
-import { Map, Marker, GoogleApiWrapper, InfoWindow } from "google-maps-react";
-import { apiKeyGoogle } from "../../config/constants";
-import calculateDistance from "../../calculateDistance";
-import { fetchServices } from "../../store/typeOfServices/actions";
 import StarRatings from "react-star-ratings";
-import "./ProfilesByServiceId.css";
+import { Map, Marker, GoogleApiWrapper, InfoWindow } from "google-maps-react";
+import { profilesSelector } from "../../store/profiles/selectors";
+import { fetchServices } from "../../store/typeOfServices/actions";
 import { fetchReviews } from "../../store/reviews/actions";
 import { reviewsSelector } from "../../store/reviews/selector";
+import calculateDistance from "../../calculateDistance";
+import { apiKeyGoogle } from "../../config/constants";
+import "./ProfilesByServiceId.css";
 
 function ProfilesByServiceId({ google, latitude, longitude }) {
-  const profiles = useSelector(profilesSelector);
   const [selectedProfile, setSelectedProfile] = useState(null);
   const dispatch = useDispatch();
+  const profiles = useSelector(profilesSelector);
   const reviews = useSelector(reviewsSelector);
 
   useEffect(() => {
@@ -21,23 +21,17 @@ function ProfilesByServiceId({ google, latitude, longitude }) {
     dispatch(fetchReviews);
   }, [dispatch, selectedProfile]);
 
-  const markerClickHandler = (event, profile) => {
-    // Remember which place was clicked
-    setSelectedProfile(profile);
-  };
-
   let average; //display average of rating
-  let reviewsToDisplay; //display reviews
+  let reviewsToConsider; //By userServiceId
 
   if (selectedProfile) {
-    // filter the reviews to display
-    reviewsToDisplay = reviews.filter((review) => {
-      return selectedProfile.id === review.userServiceId;
-    });
-    if (reviewsToDisplay.length) {
+    reviewsToConsider = reviews.filter(
+      (review) => selectedProfile.id === review.userServiceId
+    );
+    if (reviewsToConsider.length) {
       average = parseInt(
-        reviewsToDisplay.reduce((total, next) => total + next.rating, 0) /
-          reviewsToDisplay.length
+        reviewsToConsider.reduce((total, next) => total + next.rating, 0) /
+          reviewsToConsider.length
       );
     }
   }
@@ -47,7 +41,7 @@ function ProfilesByServiceId({ google, latitude, longitude }) {
         <Map
           className="google-map"
           google={google}
-          zoom={13}
+          zoom={14}
           initialCenter={{
             lat: latitude,
             lng: longitude,
@@ -83,7 +77,7 @@ function ProfilesByServiceId({ google, latitude, longitude }) {
                       lat: profile.user.latitude,
                       lng: profile.user.longitude,
                     }}
-                    onClick={(event) => markerClickHandler(event, profile)}
+                    onClick={(event) => setSelectedProfile(profile)}
                   ></Marker>
                 );
               })
@@ -127,9 +121,11 @@ function ProfilesByServiceId({ google, latitude, longitude }) {
                       starSpacing="5px"
                     />
                   </div>
-                  <div className="info-item 5">
-                    <strong>{selectedProfile.price}€/hour</strong>
-                  </div>
+                  {selectedProfile.user.isCandidate ? (
+                    <div className="info-item 5">
+                      <strong>{selectedProfile.price}€/hour</strong>
+                    </div>
+                  ) : null}
                   <div className="info-item 6">
                     <a href={`/userservice/${selectedProfile.id}`}>
                       <button className="btn-see-details">See details</button>

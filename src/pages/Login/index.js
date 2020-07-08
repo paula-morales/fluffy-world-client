@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { login } from "../../store/user/actions";
-import { selectToken } from "../../store/user/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { login } from "../../store/user/actions";
+import { selectToken } from "../../store/user/selectors";
 import "./login.css";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const token = useSelector(selectToken);
   const history = useHistory();
+  const token = useSelector(selectToken);
 
   useEffect(() => {
     if (token !== null) {

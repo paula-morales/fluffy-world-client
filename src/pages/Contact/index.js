@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { Container, Form, Col, Button, Row } from "react-bootstrap";
-import "./Contact.css";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 import { fetchProfiles } from "../../store/profiles/actions";
 import { profilesByIdSelector } from "../../store/profiles/selectors";
-import moment from "moment";
 import { selectToken } from "../../store/user/selectors";
 import { sendEmail } from "../../store/profiles/actions";
 import { fetchServices } from "../../store/typeOfServices/actions";
 import { typeOfServicesSelector } from "../../store/typeOfServices/selectors";
 import { showMessageWithTimeout } from "../../store/appState/actions";
+import "./Contact.css";
 
 export default function Contact() {
   const { idprofile } = useParams();
   const dispatch = useDispatch();
-  const history = useHistory();
   const [date, setDate] = useState();
   const [message, setMessage] = useState();
   const [hour, setHour] = useState();
+  const history = useHistory();
   const profile = useSelector(profilesByIdSelector(parseInt(idprofile)));
   const token = useSelector(selectToken);
-  const hours = [];
-  let serviceSelected;
+  const typeOfServices = useSelector(typeOfServicesSelector);
 
   useEffect(() => {
     if (token === null) {
@@ -33,7 +32,9 @@ export default function Contact() {
     }
   }, [token, history, dispatch]);
 
-  const typeOfServices = useSelector(typeOfServicesSelector);
+  //to display the hours when the person is available
+  const hours = [];
+  let serviceSelected;
   if (profile) {
     serviceSelected = typeOfServices.find((service) => {
       return service.id === profile.serviceId;

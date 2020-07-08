@@ -13,19 +13,8 @@ export default function UserPersonalAccount() {
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
   const history = useHistory();
-
-  useEffect(() => {
-    if (token) {
-      dispatch(fetchProfiles);
-      dispatch(fetchFavorites);
-    } else if (token === null) {
-      history.push("/");
-    }
-  }, [dispatch, token, history]);
-
   const favorites = useSelector(selectFavorites);
   const profiles = useSelector(profilesSelector);
-
   const user = useSelector(selectUser);
   const {
     email,
@@ -35,6 +24,15 @@ export default function UserPersonalAccount() {
     profilePicture,
     isOwner,
   } = user;
+
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchProfiles);
+      dispatch(fetchFavorites);
+    } else if (token === null) {
+      history.push("/");
+    }
+  }, [dispatch, token, history]);
 
   let favProfilesToDisplay = [];
   const displayFavorites = () => {

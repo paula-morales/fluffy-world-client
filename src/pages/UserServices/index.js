@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { Container, Col, Row, Image, Button, Form } from "react-bootstrap";
-import { useParams } from "react-router-dom";
-import StarRatings from "react-star-ratings";
+import { useParams, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import StarRatings from "react-star-ratings";
+import moment from "moment";
 import { fetchProfiles } from "../../store/profiles/actions";
 import { profilesByIdSelector } from "../../store/profiles/selectors";
-import { NavLink } from "react-router-dom";
-import Review from "../../components/Review";
 import { showMessageWithTimeout } from "../../store/appState/actions";
 import { selectToken } from "../../store/user/selectors";
 import { fetchServices } from "../../store/typeOfServices/actions";
 import { typeOfServicesSelector } from "../../store/typeOfServices/selectors";
-import moment from "moment";
 import { reviewsSelector } from "../../store/reviews/selector";
 import { fetchReviews, addReview } from "../../store/reviews/actions";
 import { selectUser } from "../../store/user/selectors";
-import "../RegisterYourService/RegisterYourService.css";
 import { fetchFavorites, toggleFavorite } from "../../store/favorites/actions";
 import { selectFavorites } from "../../store/favorites/selector";
+import Review from "../../components/Review";
+import "../RegisterYourService/RegisterYourService.css";
 import "./userServices.css";
 
 export default function UserServices() {
+  const { idUserService } = useParams();
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const { idUserService } = useParams();
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
+  const profile = useSelector(profilesByIdSelector(parseInt(idUserService)));
+  const typeOfServices = useSelector(typeOfServicesSelector);
+  const reviews = useSelector(reviewsSelector);
+  const user = useSelector(selectUser);
+  const favorites = useSelector(selectFavorites);
 
   useEffect(() => {
     dispatch(fetchProfiles);
@@ -35,12 +39,6 @@ export default function UserServices() {
       dispatch(fetchFavorites);
     }
   }, [dispatch, token]);
-
-  const profile = useSelector(profilesByIdSelector(parseInt(idUserService)));
-  const typeOfServices = useSelector(typeOfServicesSelector);
-  const reviews = useSelector(reviewsSelector);
-  const user = useSelector(selectUser);
-  const favorites = useSelector(selectFavorites);
 
   let service; //display the name of service offered
   let reviewsToDisplay; //display reviews
@@ -73,6 +71,7 @@ export default function UserServices() {
     }
   }
 
+  //new rating
   function changeRating(newRating, name) {
     setRating(newRating);
   }
@@ -80,7 +79,6 @@ export default function UserServices() {
   //submit a new review
   function handlerSubmit(e) {
     e.preventDefault();
-
     if (!comment || !rating) {
       dispatch(
         showMessageWithTimeout("danger", true, "Please fill out all the fields")
@@ -115,10 +113,54 @@ export default function UserServices() {
       return fav.userServiceId === parseInt(idUserService);
     });
   }
-
   const toggle = () => {
     dispatch(toggleFavorite(parseInt(idUserService), isFavorite));
   };
+
+  const formReviews = () => (
+    <Form
+      className="mb-5"
+      style={{
+        backgroundColor: "#dfeef3",
+        padding: "0 40px 50px 40px",
+      }}
+    >
+      <Form.Group>
+        <Row>
+          <Form.Label>Leave a review</Form.Label>
+        </Row>
+
+        <Row>
+          {" "}
+          <StarRatings
+            rating={rating}
+            starRatedColor="#ebcc34"
+            changeRating={changeRating}
+            numberOfStars={5}
+            name="rating"
+            starDimension="35px"
+            starSpacing="5px"
+          />
+        </Row>
+      </Form.Group>
+      <Form.Group>
+        <Row>
+          <Form.Label>Comment</Form.Label>
+        </Row>
+        <Row>
+          <textarea
+            name="Comment"
+            rows="5"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          ></textarea>
+        </Row>
+      </Form.Group>
+      <Button variant="danger" onClick={handlerSubmit}>
+        Submit
+      </Button>
+    </Form>
+  );
 
   return (
     <Container>
@@ -166,7 +208,7 @@ export default function UserServices() {
                         isFavorite ? (
                           <div>
                             <img
-                              src="https://i.dlpng.com/static/png/5345416-instagram-heart-png-clipart-background-png-play-heart-png-820_613_preview.png"
+                              src={require("../../images/heart.png")}
                               alt="heart"
                               style={{
                                 width: "50px",
@@ -183,7 +225,7 @@ export default function UserServices() {
                             }}
                           >
                             <img
-                              src="https://i.stack.imgur.com/Ui4gd.png"
+                              src={require("../../images/empty-heart.png")}
                               alt="heart"
                               style={{
                                 width: "35px",
@@ -290,50 +332,7 @@ export default function UserServices() {
           )
         ) : null}
       </Container>
-      {user.isOwner ? (
-        <Form
-          className="mb-5"
-          style={{
-            backgroundColor: "#dfeef3",
-            padding: "0 40px 50px 40px",
-          }}
-        >
-          <Form.Group>
-            <Row>
-              <Form.Label>Leave a review</Form.Label>
-            </Row>
-
-            <Row>
-              {" "}
-              <StarRatings
-                rating={rating}
-                starRatedColor="#ebcc34"
-                changeRating={changeRating}
-                numberOfStars={5}
-                name="rating"
-                starDimension="35px"
-                starSpacing="5px"
-              />
-            </Row>
-          </Form.Group>
-          <Form.Group>
-            <Row>
-              <Form.Label>Comment</Form.Label>
-            </Row>
-            <Row>
-              <textarea
-                name="Comment"
-                rows="5"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              ></textarea>
-            </Row>
-          </Form.Group>
-          <Button variant="danger" onClick={handlerSubmit}>
-            Submit
-          </Button>
-        </Form>
-      ) : null}
+      {user.isOwner ? formReviews() : null}
     </Container>
   );
 }

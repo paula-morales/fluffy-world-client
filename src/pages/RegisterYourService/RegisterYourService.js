@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Jumbotron, Container, Form, Col, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { showMessageWithTimeout } from "../../store/appState/actions";
 import { useHistory } from "react-router-dom";
+import { showMessageWithTimeout } from "../../store/appState/actions";
 import { selectUser } from "../../store/user/selectors";
 import { registerService } from "../../store/profiles/actions";
 import { typeOfServicesSelector } from "../../store/typeOfServices/selectors";
@@ -22,6 +22,7 @@ export default function RegisterYourService() {
   const history = useHistory();
   const user = useSelector(selectUser);
   const servicesList = useSelector(typeOfServicesSelector);
+  const profiles = useSelector(profilesSelector);
 
   useEffect(() => {
     //you only can access if you are a candidate
@@ -32,12 +33,14 @@ export default function RegisterYourService() {
     dispatch(fetchServices);
   }, [user, history, dispatch]);
 
-  const profiles = useSelector(profilesSelector);
+  //check if there are existing profiles
+  //you can register only one profile of each service
   let existingProfiles;
   if (profiles && user) {
     existingProfiles = profiles.filter((profile) => profile.userId === user.id);
   }
 
+  //check which services he/she already offers
   let existingServices = [];
   if (existingProfiles) {
     existingProfiles.forEach((profile) => {
@@ -75,6 +78,20 @@ export default function RegisterYourService() {
     ) {
       dispatch(
         showMessageWithTimeout("danger", true, "Please fill out all the fields")
+      );
+    } else if (
+      availableFrom > 24 ||
+      availableFrom < 0 ||
+      availableUntil > 24 ||
+      availableUntil < 0 ||
+      availableFrom > availableUntil
+    ) {
+      dispatch(
+        showMessageWithTimeout(
+          "danger",
+          true,
+          "Please choose a time between 0 and 24 H"
+        )
       );
     } else {
       dispatch(
@@ -161,7 +178,10 @@ export default function RegisterYourService() {
               <Form.Control
                 value={availableFrom}
                 onChange={(event) => setAvailableFrom(event.target.value)}
-                type="text"
+                type="number"
+                step="1"
+                max={24}
+                min={0}
                 placeholder="Enter a number (format 24H)"
                 required
               />
@@ -173,7 +193,10 @@ export default function RegisterYourService() {
               <Form.Control
                 value={availableUntil}
                 onChange={(event) => setAvailableUntil(event.target.value)}
-                type="text"
+                type="number"
+                step="1"
+                max={24}
+                min={0}
                 placeholder="Enter a number (format 24H)"
                 required
               />
