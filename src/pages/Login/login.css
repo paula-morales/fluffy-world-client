@@ -1,5 +1,5 @@
 .container-box {
-  height: 90vh;
+  height: 95vh;
   background-color: #d3b9aa;
 }
 
@@ -21,7 +21,7 @@
 .container-form {
   display: flex;
   flex-direction: column;
-  width: 25vw;
+  min-width: 25vw;
   margin-left: -50px;
 }
 
@@ -55,4 +55,31 @@
   color: #fff;
   border-radius: 8px;
   text-transform: uppercase;
+}
+
+@media (max-width: 1225px) {
+  .image-container {
+    display: none;
+  }
+  .container-form {
+    width: 40%;
+    padding-top: 25px;
+    margin-left: 0;
+  }
+}
+@media (max-width: 800px) {
+  .container-form {
+    width: 80%;
+  }
+  .items-container label,
+  .form-item {
+    font-size: 15px;
+  }
+  .button-container label,
+  .button-container button {
+    font-size: 15px;
+  }
+  .sign-up {
+    font-size: 20px;
+  }
 }

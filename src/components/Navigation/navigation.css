@@ -11,7 +11,8 @@
   justify-content: space-around;
   align-items: center;
   color: rgb(122, 121, 121);
-  font-size: 1rem;
+  font-size: 20px;
+
   margin: 0;
 }
 
@@ -19,11 +20,12 @@
   font-size: 1.5rem;
   margin-left: 2.5rem;
   font-family: "Lato", sans-serif;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .navbar-links {
   height: 100%;
+
   margin-right: 2.5rem;
 }
 
@@ -45,7 +47,7 @@
   padding: 5px;
   text-decoration: none;
   color: rgb(122, 121, 121);
-  font-weight: 600;
+  font-weight: 400;
   text-transform: uppercase;
   margin: 1vw;
 }
@@ -125,10 +127,6 @@
 
   .navbar-links ul li a {
     padding: 0;
-  }
-
-  .navbar-links.active {
-    display: flex;
   }
 }
 

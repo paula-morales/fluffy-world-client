@@ -88,7 +88,7 @@
 }
 
 .form-container-2 {
-  width: 500px;
+  max-width: 500px;
 }
 
 .label-radio {
@@ -97,4 +97,33 @@
 
 .sign-up-svg {
   margin-left: 50px;
+}
+
+@media (max-width: 1225px) {
+  .sign-up-svg {
+    display: none;
+  }
+  .form-container-2 {
+    width: 80%;
+    padding-top: 25px;
+  }
+  .form-container {
+    background-color: #d3b9aa;
+  }
+}
+@media (max-width: 800px) {
+  .items-container {
+    flex-direction: column;
+  }
+  .items-container label,
+  .form-item {
+    font-size: 15px;
+  }
+  .button-container label,
+  .button-container button {
+    font-size: 15px;
+  }
+  .sign-up {
+    font-size: 20px;
+  }
 }
