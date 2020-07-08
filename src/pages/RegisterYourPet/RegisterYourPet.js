@@ -24,41 +24,33 @@ export default function RegisterYourPet() {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector(selectUser);
+  const profiles = useSelector(profilesSelector);
+
   useEffect(() => {
     if (user.isCandidate || !user.token) {
       history.push("/");
     }
-
     dispatch(fetchProfiles);
   }, [user, history, dispatch]);
 
-  const profiles = useSelector(profilesSelector);
+  //you only can register one pet
   let existingProfiles;
+  let pet;
   if (profiles && user) {
     existingProfiles = profiles.filter((profile) => profile.userId === user.id);
-  }
-
-  let pet;
-  if (existingProfiles) {
-    pet = existingProfiles.find((profile) => {
-      return (profile.serviceId = 5);
-    });
-  }
-
-  if (pet) {
-    return <Alert variant="danger">You already registered your pet</Alert>;
-  }
-
-  function handlerSubmit() {
+    if (existingProfiles) {
+      pet = existingProfiles.find((profile) => {
+        return (profile.serviceId = 5);
+      });
+    }
     if (pet) {
-      dispatch(
-        showMessageWithTimeout(
-          "danger",
-          true,
-          "You already registered your pet"
-        )
-      );
-    } else if (
+      return <Alert variant="danger">You already registered your pet</Alert>;
+    }
+  }
+
+  function handlerSubmit(e) {
+    e.preventDefault();
+    if (
       !picture ||
       !name ||
       !description ||
@@ -137,8 +129,10 @@ export default function RegisterYourPet() {
             <Form.Control
               value={availableUntil}
               onChange={(event) => setAvailableUntil(event.target.value)}
-              type="text"
+              type="number"
               placeholder="Enter a number (format 24H)"
+              max={24}
+              min={0}
               required
             />
           </Form.Group>
