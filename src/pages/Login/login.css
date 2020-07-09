@@ -1,0 +1,85 @@
+.container-box {
+  height: 95vh;
+  background-color: #d3b9aa;
+}
+
+.container-box h1 {
+  text-align: center;
+}
+.form-login {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-content: stretch;
+}
+
+.form-login p {
+  font-size: 20px;
+  font-family: "Lato", sans-serif;
+}
+
+.container-form {
+  display: flex;
+  flex-direction: column;
+  min-width: 25vw;
+  margin-left: -50px;
+}
+
+.image-container {
+  height: 600px;
+  width: 650px;
+  margin-right: 150px;
+}
+.image-container img {
+  width: 100%;
+  height: 100%;
+}
+
+.container-form label {
+  margin: 0;
+  margin-top: 25px;
+}
+
+.button-login {
+  border: 1px;
+  background: #676c7f;
+  padding: 10px 20px;
+  font-size: 20px;
+  font-family: "Lato", serif;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 50px;
+  transition: 0.8s;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  border-radius: 8px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1225px) {
+  .image-container {
+    display: none;
+  }
+  .container-form {
+    width: 40%;
+    padding-top: 25px;
+    margin-left: 0;
+  }
+}
+@media (max-width: 800px) {
+  .container-form {
+    width: 80%;
+  }
+  .items-container label,
+  .form-item {
+    font-size: 15px;
+  }
+  .button-container label,
+  .button-container button {
+    font-size: 15px;
+  }
+  .sign-up {
+    font-size: 20px;
+  }
+}

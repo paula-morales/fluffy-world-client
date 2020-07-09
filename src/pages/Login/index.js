@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { login } from "../../store/user/actions";
 import { selectToken } from "../../store/user/selectors";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory, Link } from "react-router-dom";
-import { Col } from "react-bootstrap";
+import "./login.css";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const token = useSelector(selectToken);
   const history = useHistory();
+  const token = useSelector(selectToken);
 
   useEffect(() => {
     if (token !== null) {
@@ -22,49 +19,57 @@ export default function SignUp() {
   }, [token, history]);
 
   function submitForm(event) {
-    console.log("hi");
     event.preventDefault();
-
     dispatch(login(email, password));
-
     setEmail("");
     setPassword("");
   }
 
   return (
-    <Container>
-      <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
-        <h1 className="mt-5 mb-5">Login</h1>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            value={email}
-            onChange={event => setEmail(event.target.value)}
-            type="email"
-            placeholder="Enter email"
-            required
-          />
-        </Form.Group>
+    <div className="container-box">
+      {" "}
+      <div className="curved-div upper">
+        <svg viewBox="0 0 1440 319">
+          <path
+            fill="#fff"
+            fillOpacity="1"
+            d="M0,32L48,48C96,64,192,96,288,96C384,96,480,64,576,48C672,32,768,32,864,42.7C960,53,1056,75,1152,90.7C1248,107,1344,117,1392,122.7L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+          ></path>
+        </svg>
+      </div>{" "}
+      <div className="form-login">
+        <div className="image-container">
+          <img src={require("../../images/grooming.png")} alt="dog-grooming" />
+        </div>{" "}
+        <div className="container-form">
+          <h1>Log in</h1>
 
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            value={password}
-            onChange={event => setPassword(event.target.value)}
-            type="password"
-            placeholder="Password"
-            required
+          <label>
+            <p>
+              <i className="fa fa-envelope-o fa-fw" aria-hidden="true"></i>{" "}
+              Email address
+            </p>
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
-        </Form.Group>
-        <Form.Group className="mt-5">
-          <Button variant="primary" type="submit" onClick={submitForm}>
+          <label>
+            <p>
+              <i className="fa fa-key fa-fw" aria-hidden="true"></i> Password{" "}
+            </p>
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+          <button className="button-login" onClick={submitForm}>
             Log in
-          </Button>
-        </Form.Group>
-        <Link to="/signup" style={{ textAlign: "center" }}>
-          Click here to sign up
-        </Link>
-      </Form>
-    </Container>
+          </button>
+        </div>
+      </div>{" "}
+    </div>
   );
 }

@@ -1,0 +1,231 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.text-welcome-container a {
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: "Lato", serif;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.search-box {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 7px;
+  padding: 2rem;
+  font-family: "Lato", serif;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.label-text {
+  margin-bottom: 1rem;
+  font-size: 20px;
+}
+
+.button-search {
+  width: 100%;
+  position: absolute;
+  bottom: 1rem;
+}
+
+.container-homepage {
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  background: #d3b9aa;
+}
+
+.homepage-1 {
+  height: 90vh;
+}
+
+.curved-div {
+  background: #d3b9aa;
+
+  color: #fff;
+
+  overflow: hidden;
+  height: 70vh;
+}
+.curved-div svg {
+  display: block;
+}
+
+.curved-div.down svg {
+  position: absolute;
+  bottom: 0;
+}
+
+.curved-div.upper {
+  background: #d3b9aa;
+  height: 20vh;
+}
+
+.text-welcome {
+  display: flex;
+  position: relative;
+  top: 10vh;
+  text-align: center;
+  justify-content: center;
+}
+
+.text-welcome-container {
+  min-width: 65vw;
+  text-align: left;
+}
+
+.image-wrapper {
+  display: block;
+  text-align: right;
+  margin-right: 15vw;
+  margin-top: -5vw;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.button {
+  border: 0px;
+  background: #676c7f;
+  padding: 10px 20px;
+  font-size: 20px;
+  font-family: "Lato", serif;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 10px;
+  transition: 0.8s;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  border-radius: 8px;
+  text-transform: uppercase;
+}
+
+.dog-walking-container {
+  display: block;
+  height: 10vh;
+}
+
+.dog-walking-container svg {
+  position: relative;
+  left: 100px;
+  width: 1000px;
+  height: 100vh;
+}
+
+.map-container {
+  display: block;
+  position: relative;
+  width: 50vw;
+  height: 60vh;
+}
+
+.map-container-1 {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+.google-map {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.homepage-2 {
+  background-color: #e1d5bf;
+}
+
+.homepage-singup {
+  font-size: 25px;
+}
+.homepage-singup:focus,
+button:hover {
+  background-color: #3d495f;
+  outline: none;
+}
+
+.card {
+  transition: 0.3s;
+  width: 300px;
+  min-height: fit-content;
+  height: 470px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  padding: 2px 16px;
+}
+
+.container-cards {
+  display: flex;
+  justify-content: flex-end;
+}
+.about {
+  position: absolute;
+  bottom: 10px;
+}
+
+.homepage-aboutus {
+  background-color: #99b4c7;
+}
+
+.many-dogs {
+  position: absolute;
+  bottom: -200vh;
+}
+
+.card {
+  margin: 0 20px;
+}
+@media (max-width: 1225px) {
+  .image-wrapper {
+    display: none;
+  }
+  .search-box {
+    margin: 0;
+    flex-direction: column;
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  .button-search {
+    position: relative;
+    bottom: 0;
+  }
+  .dog-walking-container {
+    display: none;
+  }
+  .container {
+    margin-top: 25px;
+  }
+  .map-container-1 {
+    margin: 0;
+  }
+  .map-container {
+    width: 90%;
+    height: 50vh;
+  }
+}
+
+@media (max-width: 800px) {
+  .search-box {
+    margin: 0;
+    flex-direction: column;
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  .text-welcome-container {
+    margin-left: 25px;
+  }
+  .map-container {
+    width: 90%;
+    height: 50vh;
+  }
+}
