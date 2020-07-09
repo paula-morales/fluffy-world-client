@@ -83,9 +83,9 @@ In this project I try to use:
 
 ## Set up
 
-1 - Clone the app
-2 - Cd into your project
-3 - npm install
-4 - npm start
+- Clone the app
+- Cd into your project
+- npm install
+- npm start
 
 You will need to create your own Google API Key for Geocoding API, Places API, Maps Javascript API
