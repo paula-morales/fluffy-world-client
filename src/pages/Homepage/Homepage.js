@@ -178,7 +178,7 @@ export default function Homepage() {
                       setServiceChosen(parseInt(event.target.value))
                     }
                   >
-                    {services ? displayServices() : null}
+                    {services ? displayServices() : <option>Loading...</option>}
                   </Form.Control>
                 </Form.Group>
               </Col>
