@@ -10,7 +10,7 @@ You can find the perfect candidate and be sure that your fluffy friend is in rig
 ## [❗️Check out the deployed version here❗️](https://fluffy-world.netlify.app/)
 
 - [Wireframe](https://s3.amazonaws.com/assets.mockflow.com/app/wireframepro/company/C1d2e5619aa7c4499b2ad5a3a7bd281e2/projects/M8f39340cb053a6865d083471df78c7c41593354426480/pages/D2ce52e1f90a1d6771d9d766285b4c879/image/D2ce52e1f90a1d6771d9d766285b4c879.png)
-- [Kanban task board](https://trello.com/b/bkrARdCB/fluffy-world)
+- [Kanban task board](https://github.com/users/paula-morales/projects/1)
 
 ## Table of contents:
 
